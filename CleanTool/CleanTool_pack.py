@@ -82,45 +82,45 @@ def 抖音处理模块(文件所在位置,文件类型,表格类型):
     elif 表格类型 == '运单表' :
         #判断文件类型，防止平台后期修改文件的保存格式
         if 文件类型 == '.xlsx' :
-            data = pd.read_excel(文件所在位置,usecols=['运单号','订单号','揽件时间','发货时间'])
+            data = pd.read_excel(文件所在位置,usecols=['运单号','订单编号','揽件时间','发货时间'])
         elif 文件类型 == '.csv' :
             try:
-                data = pd.read_csv(文件所在位置,usecols=['运单号','订单号','揽件时间','发货时间'])
+                data = pd.read_csv(文件所在位置,usecols=['运单号','订单编号','揽件时间','发货时间'])
             except(UnicodeDecodeError):
-                data = pd.read_csv(文件所在位置,usecols=['运单号','订单号','揽件时间','发货时间'],encoding='GB18030')
+                data = pd.read_csv(文件所在位置,usecols=['运单号','订单编号','揽件时间','发货时间'],encoding='GB18030')
          
         #——————————————————————————————————先删除真重复的运单表，再向下分列，再删除重复订单号
         #【重要】已证实，运单号重复是因为异常类型不一致！
         data = data.drop_duplicates('运单号')
         #将运单表中一个单元格内的多个订单编号向下分列
         data['运单号'] = data['运单号'].astype(str)
-        data['订单号'] = data['订单号'].astype(str)
-        data_ = data['订单号'].str.split(',', expand=True)
+        data['订单编号'] = data['订单编号'].astype(str)
+        data_ = data['订单编号'].str.split(',', expand=True)
         data_ = data_.stack()
-        data_ = data_.reset_index(level=1,drop=True).rename('订单号')
-        data = data.drop(['订单号'],axis=1).join(data_)
+        data_ = data_.reset_index(level=1,drop=True).rename('订单编号')
+        data = data.drop(['订单编号'],axis=1).join(data_)
         # data = data.drop('订单号',axis=1).join(data_)
 
         #清除掉重复值【已核实1.0】
-        data = data.drop_duplicates('订单号')
+        data = data.drop_duplicates('订单编号')
         #——————————————————————————————————先删除真重复的运单表，再向下分列，再删除重复订单号
         
         #【重要】将该死的\t符号干掉，但依然不能去除空值
         #print(repr(data.loc[0,'订单号']))
-        data['订单号'] = data['订单号'].str.strip('\t')
+        data['订单编号'] = data['订单编号'].str.strip('\t')
         #print(repr(data.loc[0,'订单号']))
         
         #————————————————————————————————————————临时处理方法
-        data['空值处理'] = data['订单号']
+        data['空值处理'] = data['订单编号']
         data['空值处理'] = data['空值处理'].astype(bool)
         data = data.drop(data[data['空值处理'] == False].index)
         #————————————————————————————————————————临时处理方法
         #【清除左右字符串，默认为空格】匹配第一个和最后一个字符，分别看左边和有边有无指定字符，有则清除
-        data['订单号'].str.strip()
+        data['订单编号'].str.strip()
         
         #【去空】去掉揽件时间、订单号中的空值所在行
         data.dropna(axis = 0 ,how = 'any',inplace=True)
-        data['订单号'] = data['订单号'].astype(str)
+        data['订单编号'] = data['订单编号'].astype(str)
         data.drop(['空值处理'],axis= 1,inplace=True)
         
         data['发货日期'] = pd.to_datetime(data['发货时间'])
@@ -128,7 +128,7 @@ def 抖音处理模块(文件所在位置,文件类型,表格类型):
         data['揽件日期'] = pd.to_datetime(data['揽件时间'])
         data['揽件日期'] = data['揽件日期'].dt.date       
         #统一字段名称
-        data.rename(columns={'订单号':'订单编号'},inplace = True)
+        data.rename(columns={'订单编号':'订单编号'},inplace = True)
         判断表格名 = True
 
 
