@@ -35,12 +35,12 @@ def 抖音处理模块(文件所在位置,文件类型,表格类型):
     if 表格类型 == '订单表' :
         #判断文件类型，防止平台后期修改文件的保存格式
         if 文件类型 == '.xlsx' :
-            data = pd.read_excel(文件所在位置,usecols=['主订单编号','子订单编号','选购商品','商品数量','订单应付金额','订单提交时间','订单状态','售后状态','商家编码','商品ID'])
+            data = pd.read_excel(文件所在位置,usecols=['主订单编号','子订单编号','选购商品','商品数量','订单应付金额','订单提交时间','订单状态','售后状态','商家编码','商品ID','达人昵称','达人ID','商品单价'])
         elif 文件类型 == '.csv' :
             try:
-                data = pd.read_csv(文件所在位置,usecols=['主订单编号','子订单编号','选购商品','商品数量','订单应付金额','订单提交时间','订单状态','售后状态','商家编码','商品ID'])
+                data = pd.read_csv(文件所在位置,usecols=['主订单编号','子订单编号','选购商品','商品数量','订单应付金额','订单提交时间','订单状态','售后状态','商家编码','商品ID','达人昵称','达人ID','商品单价'])
             except(UnicodeDecodeError):
-                data = pd.read_csv(文件所在位置,usecols=['主订单编号','子订单编号','选购商品','商品数量','订单应付金额','订单提交时间','订单状态','售后状态','商家编码','商品ID'],encoding='GB18030')
+                data = pd.read_csv(文件所在位置,usecols=['主订单编号','子订单编号','选购商品','商品数量','订单应付金额','订单提交时间','订单状态','售后状态','商家编码','商品ID','达人昵称','达人ID','商品单价'],encoding='GB18030')
 
                 
         #筛选去除不重要的数据
@@ -54,7 +54,7 @@ def 抖音处理模块(文件所在位置,文件类型,表格类型):
         data.loc[data['售后状态'] == '待退货', ['售后状态']] = '待买家退货处理'
 
         #提取字符串
-        data['商家编码'] = data['商家编码'].map(提取最长字符串)
+        # data['商家编码'] = data['商家编码'].map(提取最长字符串)
         #数据的某一列=数据的某一列进行格式转换，来达成清除前后空格
         data['订单提交时间'] = data['订单提交时间'].astype('datetime64[ns]')
         #超过4位数会有逗号，需要统一转换为str使用replace去除
@@ -64,6 +64,7 @@ def 抖音处理模块(文件所在位置,文件类型,表格类型):
         data['主订单编号'] = data['主订单编号'].astype(str)
         data['子订单编号'] = data['子订单编号'].astype(str)
         data['商品ID'] = data['商品ID'].astype(str)
+        data['达人ID'] =data['达人ID'].astype(str)
         data['订单提交日期'] = pd.to_datetime(data['订单提交时间'])
         data['订单提交日期'] = data['订单提交日期'].dt.date
         
@@ -82,12 +83,12 @@ def 抖音处理模块(文件所在位置,文件类型,表格类型):
     elif 表格类型 == '运单表' :
         #判断文件类型，防止平台后期修改文件的保存格式
         if 文件类型 == '.xlsx' :
-            data = pd.read_excel(文件所在位置,usecols=['运单号','订单编号','揽件时间','发货时间'])
+            data = pd.read_excel(文件所在位置,usecols=['运单号','订单编号','揽件时间','发货时间'],dtype=str)
         elif 文件类型 == '.csv' :
             try:
-                data = pd.read_csv(文件所在位置,usecols=['运单号','订单编号','揽件时间','发货时间'])
+                data = pd.read_csv(文件所在位置,usecols=['运单号','订单编号','揽件时间','发货时间'],dtype=str)
             except(UnicodeDecodeError):
-                data = pd.read_csv(文件所在位置,usecols=['运单号','订单编号','揽件时间','发货时间'],encoding='GB18030')
+                data = pd.read_csv(文件所在位置,usecols=['运单号','订单编号','揽件时间','发货时间'],encoding='GB18030',dtype=str)
          
         #——————————————————————————————————先删除真重复的运单表，再向下分列，再删除重复订单号
         #【重要】已证实，运单号重复是因为异常类型不一致！
@@ -294,12 +295,12 @@ def 抖音处理模块(文件所在位置,文件类型,表格类型):
             
     elif 表格类型 == '团长表' :
         if 文件类型 == '.xlsx' :
-            data = pd.read_excel(文件所在位置,usecols=['订单id','预估服务费收入','商品id'])
+            data = pd.read_excel(文件所在位置,usecols=['订单id','预估服务费收入','商品id','出单机构'])
         elif 文件类型 == '.csv' :
             try:       
-                data = pd.read_csv(文件所在位置,usecols=['订单id','预估服务费收入','商品id'])
+                data = pd.read_csv(文件所在位置,usecols=['订单id','预估服务费收入','商品id','出单机构'])
             except(UnicodeDecodeError):
-                data = pd.read_csv(文件所在位置,usecols=['订单id','预估服务费收入','商品id'],encoding='GB18030')
+                data = pd.read_csv(文件所在位置,usecols=['订单id','预估服务费收入','商品id','出单机构'],encoding='GB18030')
                 
         #防止订单id过长而导致数据失真
         data['订单id'] = data['订单id'].astype(str)
@@ -331,31 +332,31 @@ def 快手处理模块(文件所在位置,文件类型,表格类型):
         #判断文件类型，防止平台后期修改文件的保存格式
         if 文件类型 == '.xlsx' :
             try:
-                data = pd.read_excel(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','预估推广佣金','商品名称','商品ID','成交数量','退货退款','SKU编码'])
+                data = pd.read_excel(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','预估推广佣金','商品名称','商品ID','成交数量','退货退款','SKU编码','CPS达人ID','CPS达人昵称','商品单价'])
                 data['预估推广佣金'] = data['预估推广佣金'].astype(str)
                 data['预估推广佣金'] = data['预估推广佣金'].astype('float')
                 # data.rename(columns={'预估推广佣金':'订单佣金'},inplace = True)
             except(ValueError):
-                data = pd.read_excel(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','商品名称','商品ID','成交数量','退货退款','SKU编码'])
+                data = pd.read_excel(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','商品名称','商品ID','成交数量','退货退款','SKU编码','CPS达人ID','CPS达人昵称','商品单价'])
                 
         elif 文件类型 == '.csv' :          
             try:       
                 try:
-                    data = pd.read_csv(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','预估推广佣金','商品名称','商品ID','成交数量','退货退款','SKU编码'])
+                    data = pd.read_csv(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','预估推广佣金','商品名称','商品ID','成交数量','退货退款','SKU编码','CPS达人ID','CPS达人昵称','商品单价'])
                     data['预估推广佣金'] = data['预估推广佣金'].astype(str)
                     data['预估推广佣金'] = data['预估推广佣金'].astype('float')
                     # data.rename(columns={'预估推广佣金':'订单佣金'},inplace = True)
                 except(ValueError):
-                    data = pd.read_csv(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','商品名称','商品ID','成交数量','退货退款','SKU编码'])
+                    data = pd.read_csv(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','商品名称','商品ID','成交数量','退货退款','SKU编码','CPS达人ID','CPS达人昵称','商品单价'])
                     
             except(UnicodeDecodeError):
                 try:
-                    data = pd.read_csv(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','预估推广佣金','商品名称','商品ID','成交数量','退货退款','SKU编码'],encoding='GB18030')
+                    data = pd.read_csv(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','预估推广佣金','商品名称','商品ID','成交数量','退货退款','SKU编码','CPS达人ID','CPS达人昵称','商品单价'],encoding='GB18030')
                     data['预估推广佣金'] = data['预估推广佣金'].astype(str)
                     data['预估推广佣金'] = data['预估推广佣金'].astype('float')
                     # data.rename(columns={'预估推广佣金':'订单佣金'},inplace = True)
                 except(ValueError):
-                    data = pd.read_csv(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','商品名称','商品ID','成交数量','退货退款','SKU编码'],encoding='GB18030')
+                    data = pd.read_csv(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','商品名称','商品ID','成交数量','退货退款','SKU编码','CPS达人ID','CPS达人昵称','商品单价'],encoding='GB18030')
                     
 
                 
@@ -372,7 +373,12 @@ def 快手处理模块(文件所在位置,文件类型,表格类型):
         #时间格式转换模块：从时间戳转换成时间组件
         data['订单创建日期'] = pd.to_datetime(data['订单创建时间'])
         data['订单创建日期'] = data['订单创建日期'].dt.date
-        data['订单创建日期'] = data['订单创建日期'].astype(str)     
+        data['订单创建日期'] = data['订单创建日期'].astype(str)
+
+        data['CPS达人ID'] = data['CPS达人ID'].astype('Int64')
+        data['CPS达人ID'].fillna(value=0, axis=0, inplace=True)
+        data['CPS达人ID'] = data['CPS达人ID'].astype(str)
+        data['CPS达人ID'] = data['CPS达人ID'].replace('0', '')
 
         #统一字段的名称
         data.rename(columns={'订单号':'订单编号'},inplace = True)

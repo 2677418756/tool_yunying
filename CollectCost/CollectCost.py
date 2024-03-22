@@ -390,11 +390,11 @@ class Window(QWidget):
             QMessageBox.about(self, "报错！", '请输入操作人')
             return
 
-        需打开表格名列表 = ['订单表','团长表','联盟表','运单表','淘客表'] #成本表需自己选择
+        需打开表格名列表 = ['订单表','团长表','联盟表','仓运单表','运单表','淘客表'] #成本表需自己选择
         # 实例化对象,调用方法
         自动提取文件 = AutoExtractFiles(self.清洗后文件夹路径,需打开表格名列表)
         需打开表格字典 = 自动提取文件.handle() #['订单表'：对应文件路径]
-        
+
         文件名 = os.path.basename(需打开表格字典['订单表']) # loose-天猫-账单表-清洗后.xlsx
         文件名前缀 = os.path.splitext(文件名)[0] # loose-天猫-账单表-清洗后
         平台类型 = 文件名前缀.split('-')[1] # loose-【天猫】-账单表-清洗后
@@ -406,6 +406,8 @@ class Window(QWidget):
                 团长表 = pd.read_excel(v)
             elif k == '联盟表':
                 联盟表 = pd.read_excel(v)
+            elif k == '仓运单表':
+                运单表 = pd.read_excel(v)
             elif k == '运单表':
                 运单表 = pd.read_excel(v)
             elif k == '淘客表':
