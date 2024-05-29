@@ -34,6 +34,11 @@ def 订单表清洗(path):
     return data
 
 def 推广表清洗(path):
+    # 根据文件扩展名读取数据集
+    data = read_file(path)
+    # 将DataFrame中的所有列转换为字符串类型
+    data = data.astype(str)
+    data = data[data['订单状态'] != '推广失败']
     return
 
 if __name__ == '__main__':
