@@ -6,7 +6,7 @@ def read_file(path):
     if path.endswith('.xlsx'):
         return pd.read_excel(path)
     elif path.endswith('.csv'):
-        return pd.read_csv(path,encoding='GB18030')
+        return pd.read_csv(path)
     else:
         raise ValueError("Unsupported file format. Please use .xlsx or .csv.")
 
@@ -27,7 +27,11 @@ def 账单表清洗(path):
     return data
 
 def 订单表清洗(path):
-    return
+    data=read_file(path)
+    data['订单成交时间'] = data['订单成交时间'].str.strip('\t')
+    data['订单成交时间'] = pd.to_datetime(data['订单成交时间'])
+    data.dropna(subset=['订单成交时间'], inplace=True)
+    return data
 
 def 推广表清洗(path):
     return
@@ -37,10 +41,12 @@ if __name__ == '__main__':
     # input_path = r"C:\Users\huanglipan\Desktop\拼多多-MVAV鞋服工厂店\拼多多-MVAV鞋服工厂店\1、源数据\拼多多-售后表.xlsx"
     # cleaned_data = 售后表清洗(input_path)
     # 账单表
-    input_path = r"C:\Users\huanglipan\Desktop\拼多多-MVAV鞋服工厂店\拼多多-MVAV鞋服工厂店\1、源数据\拼多多-账单表.csv"
-    cleaned_data = 账单表清洗(input_path)
+    # input_path = r"C:\Users\huanglipan\Desktop\拼多多-MVAV鞋服工厂店\拼多多-MVAV鞋服工厂店\1、源数据\拼多多-账单表.csv"
+    # cleaned_data = 账单表清洗(input_path)
 
 
+    input_path = r"C:\Users\huanglipan\Desktop\拼多多-MVAV鞋服工厂店\拼多多-MVAV鞋服工厂店\1、源数据\拼多多-订单表.csv"
+    cleaned_data = 订单表清洗(input_path)
     output_folder = r"C:\Users\huanglipan\Desktop\拼多多-MVAV鞋服工厂店\拼多多-MVAV鞋服工厂店\2、清洗后"
     # 使用os.path.basename获取文件名，不包括路径
     file_name_only = os.path.basename(input_path)
