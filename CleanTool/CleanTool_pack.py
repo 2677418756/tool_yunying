@@ -332,34 +332,34 @@ def 快手处理模块(文件所在位置,文件类型,表格类型):
         #判断文件类型，防止平台后期修改文件的保存格式
         if 文件类型 == '.xlsx' :
             try:
-                data = pd.read_excel(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','预估推广佣金','商品名称','商品ID','成交数量','退货退款','SKU编码','CPS达人ID','CPS达人昵称','商品单价'])
+                data = pd.read_excel(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','预估推广佣金','商品名称','商品ID','成交数量','售后状态','SKU编码','CPS达人ID','CPS达人昵称','商品单价'])
                 data['预估推广佣金'] = data['预估推广佣金'].astype(str)
                 data['预估推广佣金'] = data['预估推广佣金'].astype('float')
                 # data.rename(columns={'预估推广佣金':'订单佣金'},inplace = True)
             except(ValueError):
-                data = pd.read_excel(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','商品名称','商品ID','成交数量','退货退款','SKU编码','CPS达人ID','CPS达人昵称','商品单价'])
+                data = pd.read_excel(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','商品名称','商品ID','成交数量','售后状态','SKU编码','CPS达人ID','CPS达人昵称','商品单价'])
                 
         elif 文件类型 == '.csv' :          
             try:       
                 try:
-                    data = pd.read_csv(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','预估推广佣金','商品名称','商品ID','成交数量','退货退款','SKU编码','CPS达人ID','CPS达人昵称','商品单价'])
+                    data = pd.read_csv(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','预估推广佣金','商品名称','商品ID','成交数量','售后状态','SKU编码','CPS达人ID','CPS达人昵称','商品单价'])
                     data['预估推广佣金'] = data['预估推广佣金'].astype(str)
                     data['预估推广佣金'] = data['预估推广佣金'].astype('float')
                     # data.rename(columns={'预估推广佣金':'订单佣金'},inplace = True)
                 except(ValueError):
-                    data = pd.read_csv(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','商品名称','商品ID','成交数量','退货退款','SKU编码','CPS达人ID','CPS达人昵称','商品单价'])
+                    data = pd.read_csv(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','商品名称','商品ID','成交数量','售后状态','SKU编码','CPS达人ID','CPS达人昵称','商品单价'])
                     
             except(UnicodeDecodeError):
                 try:
-                    data = pd.read_csv(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','预估推广佣金','商品名称','商品ID','成交数量','退货退款','SKU编码','CPS达人ID','CPS达人昵称','商品单价'],encoding='GB18030')
+                    data = pd.read_csv(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','预估推广佣金','商品名称','商品ID','成交数量','售后状态','SKU编码','CPS达人ID','CPS达人昵称','商品单价'],encoding='GB18030')
                     data['预估推广佣金'] = data['预估推广佣金'].astype(str)
                     data['预估推广佣金'] = data['预估推广佣金'].astype('float')
                     # data.rename(columns={'预估推广佣金':'订单佣金'},inplace = True)
                 except(ValueError):
-                    data = pd.read_csv(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','商品名称','商品ID','成交数量','退货退款','SKU编码','CPS达人ID','CPS达人昵称','商品单价'],encoding='GB18030')
+                    data = pd.read_csv(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','商品名称','商品ID','成交数量','售后状态','SKU编码','CPS达人ID','CPS达人昵称','商品单价'],encoding='GB18030')
                     
 
-                
+        data.rename(columns={'售后状态':'退货退款'},inplace = True)
         #删除无用记录，交易关闭且退货退款为空的订单是未支付订单
         data = data[~(data.订单状态.isin(['交易关闭'])&data.退货退款.isnull())] 
         #去除符号转换为可以计算的数字格式
