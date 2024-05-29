@@ -17,7 +17,7 @@ import gc
 def 抖音处理模块(文件所在位置,文件类型,表格类型):
      
     def 提取最长字符串(strings):
-        
+
         try:
             #匹配2-10位字母与数字组成的子串，返回一个数组（列表）
             ret = re.findall("[a-zA-Z0-9]{2,10}",strings)
