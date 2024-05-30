@@ -2,7 +2,6 @@ import os
 
 import numpy as np
 import pandas as pd
-
 from PDDCleanTool.common.CommonUtil import CommonUtil
 
 def 订单全状态表(path):
