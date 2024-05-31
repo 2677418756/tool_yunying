@@ -12,8 +12,8 @@ def 订单金额成本表(path):
             bill_data = CommonUtil().读取表格(path,文件名);
         elif  '推广表' in 文件名:
             promotion_data = CommonUtil().读取表格(path, 文件名);
-    print(promotion_data)
-
+        else:
+            continue;
 
     bill_data.rename(columns={'商户订单号': '订单号'}, inplace=True)
     bill_data.rename(columns={'收入金额（+元）': '收入金额'}, inplace=True)
