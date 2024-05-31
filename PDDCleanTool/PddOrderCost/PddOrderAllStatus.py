@@ -14,6 +14,8 @@ def 订单全状态表(path):
             bill_data =  CommonUtil().读取表格(path,文件名);
         elif '佣金表' in 文件名:
             commission_data = CommonUtil().读取表格(path, 文件名);
+        else:
+            continue
 
     bill_data.rename(columns={'商户订单号': '订单号'}, inplace=True)
     bill_data.rename(columns={'收入金额（+元）': '收入金额'}, inplace=True)
