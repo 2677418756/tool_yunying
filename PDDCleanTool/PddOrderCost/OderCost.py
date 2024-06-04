@@ -23,7 +23,7 @@ def 订单金额成本表(path):
     #合并收入金额和支出金额
     bill_data['收入金额'] = bill_data['收入金额'].apply(lambda x: abs(float(x)))
     bill_data['支出金额'] = bill_data['支出金额'].apply(lambda x: abs(float(x)))
-    bill_data['实际服务金额'] = bill_data['收入金额'] - bill_data['支出金额']
+    bill_data['实际服务金额'] = bill_data['支出金额']+bill_data['收入金额']
     #合并收支金额
     grouped_bill = bill_data.groupby('订单号')['实际服务金额'].sum().reset_index()
 
@@ -60,6 +60,6 @@ def 订单金额成本表(path):
     order_bill_data = pd.merge(end_order, Service_order, how='left', on='订单成交时间')
 
 
-    pd.DataFrame(order_bill_data).to_csv('C:\\Users\\huanglipan\\Desktop\\order_bill_data.csv')
+    pd.DataFrame(order_bill_data).to_csv(r'C:\Users\huanglipan\Desktop\熔视界6月1日\拼多多-MVAV鞋服工厂店\3、中台表格\订单金额成本表.csv')
 if __name__ == '__main__':
-    订单金额成本表('C:\\Users\\huanglipan\\Desktop\\拼多多-MVAV鞋服工厂店\\拼多多-MVAV鞋服工厂店\\2、清洗后');
+    订单金额成本表(r'C:\Users\huanglipan\Desktop\熔视界6月1日\拼多多-MVAV鞋服工厂店\2、清洗后');
