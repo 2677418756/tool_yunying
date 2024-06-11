@@ -12,6 +12,7 @@ import re
 import numpy as np
 import datetime
 import gc
+from PDDCleanTool import 拼多多理模块
 
 
 def 抖音处理模块(文件所在位置,文件类型,表格类型):
@@ -538,62 +539,56 @@ def 快手处理模块(文件所在位置,文件类型,表格类型):
 
 #———————————————————————————————————————————————————————————————上快手，下拼多多———————————————————————————————————————————————————————————————— 
 
-def 拼多多处理模块(文件所在位置,文件类型,表格类型):
-    
-    判断表格名 = False
-    if 表格类型 == '订单表' :
-        #判断文件类型，防止平台后期修改文件的保存格式
-        if 文件类型 == '.xlsx' :
-            data = pd.read_excel(文件所在位置,usecols=['订单号','样式ID','商品数量(件)','商家实收金额(元)','订单成交时间','订单状态','售后状态'])
-        elif 文件类型 == '.csv' :
-            data = pd.read_csv(文件所在位置,usecols=['订单号','样式ID','商品数量(件)','商家实收金额(元)','订单成交时间','订单状态','售后状态'])
-        #筛选去除不重要的数据
-        data = data[~(data.订单状态.isin(['待支付'])|data.订单状态.isin(['已取消'])|data.订单状态.isin(['已取消，退款成功']))]
-        
-        #数据的某一列=数据的某一列进行格式转换，来达成清除前后空格
-        data['订单成交时间'] = data['订单成交时间'].astype('datetime64[ns]')
-        #超过4位数会有逗号，需要统一转换为str使用replace去除
-        data['商家实收金额(元)'] = data['商家实收金额(元)'].astype(str)
-        data['商家实收金额(元)'] = data['商家实收金额(元)'].str.replace(',','')
-        
-        data['商家实收金额(元)'] = data['商家实收金额(元)'].astype(float)
-        data['样式ID'] = data['样式ID'].astype(str)
-        data['订单号'] = data['订单号'].astype(str)
-        data['订单成交日期'] = pd.to_datetime(data['订单成交时间'])
-        data['订单成交日期'] = data['订单成交日期'].dt.date
-
-        # #统一字段的名称
-        data.rename(columns={'订单号':'订单编号'},inplace = True)
-        data.rename(columns={'订单成交时间':'订单创建时间'},inplace = True)
-        data.rename(columns={'订单成交日期':'订单创建日期'},inplace = True)
-        data.rename(columns={'商品数量(件)':'成交数量'},inplace = True)
-        data.rename(columns={'商家实收金额(元)':'订单应付金额'},inplace = True)
-        data.rename(columns={'样式ID':'商品名称'},inplace = True)
-        判断表格名 = True
-        
-    elif 表格类型 == '运单表' :
-        #判断文件类型，防止平台后期修改文件的保存格式
-        #一共需要里面的【发货时间、订单号、运单号、包裹状态】
-        if 文件类型 == '.xlsx' :
-            data = pd.read_excel(文件所在位置)
-        elif 文件类型 == '.csv' :
-            data = pd.read_csv(文件所在位置)
-            
-        #【重要】将该死的\t符号干掉
-        data['运单号'] = data['运单号'].str.strip('\t')
-   
-        #【清除左右字符串，默认为空格】匹配第一个和最后一个字符，分别看左边和有边有无指定字符，有则清除
-        data['运单号'].str.strip()
-        data['运单号'] = data['运单号'].astype(str)
-        
-        
-        #统一字段名称
-        data.rename(columns={'订单号':'订单编号'},inplace = True)
-        判断表格名 = True
-
-        
-        
-    return (data,判断表格名)
+# def 拼多多处理模块(文件所在位置,文件类型,表格类型):
+#     判断表格名 = False
+#     if 表格类型 == '订单表' :
+#         #判断文件类型，防止平台后期修改文件的保存格式
+#         if 文件类型 == '.xlsx' :
+#             data = pd.read_excel(文件所在位置,usecols=['订单号','样式ID','商品数量(件)','商家实收金额(元)','订单成交时间','订单状态','售后状态'])
+#         elif 文件类型 == '.csv' :
+#             data = pd.read_csv(文件所在位置,usecols=['订单号','样式ID','商品数量(件)','商家实收金额(元)','订单成交时间','订单状态','售后状态'])
+#         #筛选去除不重要的数据
+#         data = data[~(data.订单状态.isin(['待支付'])|data.订单状态.isin(['已取消'])|data.订单状态.isin(['已取消，退款成功']))]
+#
+#         #数据的某一列=数据的某一列进行格式转换，来达成清除前后空格
+#         data['订单成交时间'] = data['订单成交时间'].astype('datetime64[ns]')
+#         #超过4位数会有逗号，需要统一转换为str使用replace去除
+#         data['商家实收金额(元)'] = data['商家实收金额(元)'].astype(str)
+#         data['商家实收金额(元)'] = data['商家实收金额(元)'].str.replace(',','')
+#
+#         data['商家实收金额(元)'] = data['商家实收金额(元)'].astype(float)
+#         data['样式ID'] = data['样式ID'].astype(str)
+#         data['订单号'] = data['订单号'].astype(str)
+#         data['订单成交日期'] = pd.to_datetime(data['订单成交时间'])
+#         data['订单成交日期'] = data['订单成交日期'].dt.date
+#
+#         # #统一字段的名称
+#         data.rename(columns={'订单号':'订单编号'},inplace = True)
+#         data.rename(columns={'订单成交时间':'订单创建时间'},inplace = True)
+#         data.rename(columns={'订单成交日期':'订单创建日期'},inplace = True)
+#         data.rename(columns={'商品数量(件)':'成交数量'},inplace = True)
+#         data.rename(columns={'商家实收金额(元)':'订单应付金额'},inplace = True)
+#         data.rename(columns={'样式ID':'商品名称'},inplace = True)
+#         判断表格名 = True
+#
+#     elif 表格类型 == '运单表' :
+#         #判断文件类型，防止平台后期修改文件的保存格式
+#         #一共需要里面的【发货时间、订单号、运单号、包裹状态】
+#         if 文件类型 == '.xlsx' :
+#             data = pd.read_excel(文件所在位置)
+#         elif 文件类型 == '.csv' :
+#             data = pd.read_csv(文件所在位置)
+#
+#         #【重要】将该死的\t符号干掉
+#         data['运单号'] = data['运单号'].str.strip('\t')
+#
+#         #【清除左右字符串，默认为空格】匹配第一个和最后一个字符，分别看左边和有边有无指定字符，有则清除
+#         data['运单号'].str.strip()
+#         data['运单号'] = data['运单号'].astype(str)
+#         #统一字段名称
+#         data.rename(columns={'订单号':'订单编号'},inplace = True)
+#         判断表格名 = True
+#     return (data,判断表格名)
 
 #———————————————————————————————————————————————————————————————上拼多多，下京东———————————————————————————————————————————————————————————————— 
 
@@ -978,7 +973,8 @@ class Clean(QWidget):
             elif 平台类型 == '抖音':
                 数据表,self.判断表格名 = 抖音处理模块(文件所在位置, 文件类型, 表格类型)
             elif 平台类型 == '拼多多' :
-                数据表,self.判断表格名 = 拼多多处理模块(文件所在位置,文件类型,表格类型)
+                数据表 = 拼多多理模块(self.输入路径,文件名)
+                self.判断表格名 = True
             elif 平台类型 == '京东' :
                 数据表,self.判断表格名 = 京东处理模块(文件所在位置,文件类型,表格类型)
             elif 平台类型 == '天猫' :
