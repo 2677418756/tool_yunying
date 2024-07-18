@@ -50,4 +50,4 @@ def 账单回款表(path):
     return settle_amount_data
 
 if __name__ == '__main__':
-    账单回款表('C:\\Users\\xwb\\Desktop\\拼多多-MVAV鞋服工厂店\\拼多多-MVAV鞋服工厂店\\2、清洗后');
+    账单回款表('D:/work/code/test/熔视界7月2日/拼多多-MVAV鞋服工厂店/2、清洗后');

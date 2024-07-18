@@ -48,6 +48,7 @@ def 抖音处理模块(文件所在位置,文件类型,表格类型):
         data['商品id'] = data['商品id'].astype(str)
         # 数字格式转换
         data['预估佣金支出'] = data['预估佣金支出'].astype(float)
+        print(111)
         # 数字保留两位小数
         data['预估佣金支出'] = np.round(data['预估佣金支出'], 2)
 

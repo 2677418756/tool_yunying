@@ -285,7 +285,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>输入文件夹路径:</string>
+        <string>输入文件夹路径aa:</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>

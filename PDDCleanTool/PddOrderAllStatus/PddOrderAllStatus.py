@@ -104,4 +104,4 @@ def 订单全状态表(path):
     print()
 
 if __name__ == '__main__':
-    订单全状态表('C:\\Users\\xwb\\Desktop\\拼多多-MVAV鞋服工厂店(4)\\拼多多-MVAV鞋服工厂店\\2、清洗后');
+    订单全状态表('D:/work/code/test/熔视界7月2日/拼多多-MVAV鞋服工厂店/2、清洗后');

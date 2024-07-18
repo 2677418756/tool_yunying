@@ -143,6 +143,59 @@ def 天猫订单成本金额表(订单表,淘客表):
 
     return 透析0
 
+def 拼多多订单成本金额表(订单表,账单表,推广表):
+    账单表.rename(columns={'商户订单号': '订单号'}, inplace=True)
+    账单表.rename(columns={'收入金额（+元）': '收入金额'}, inplace=True)
+    账单表.rename(columns={'支出金额（-元）': '支出金额'}, inplace=True)
+    # 筛选账单表中账务类型为技术服务费和其他服务
+    账单表 = 账单表[账单表.账务类型.isin(['技术服务费', '其他服务'])]
+    #合并收入金额和支出金额
+    账单表['收入金额'] = 账单表['收入金额'].apply(lambda x: abs(float(x)))
+    账单表['支出金额'] = 账单表['支出金额'].apply(lambda x: abs(float(x)))
+    账单表['实际服务金额'] = 账单表['支出金额']+账单表['收入金额']
+    #合并收支金额
+    grouped_bill = 账单表.groupby('订单号')['实际服务金额'].sum().reset_index()
+
+
+    推广表['预估支付佣金（元）'] = 推广表['预估支付佣金（元）'].apply(lambda x: abs(float(x)))
+    推广表['预估招商佣金（元）'] = 推广表['预估招商佣金（元）'].apply(lambda x: abs(float(x)))
+    推广表.rename(columns={'订单编号': '订单号'}, inplace=True)
+    #修改订单表时间
+    订单表['订单成交时间'] = pd.to_datetime(订单表['订单成交时间'])
+    订单表['订单成交时间'] = 订单表['订单成交时间'].dt.date
+    订单表['订单成交时间'] = 订单表['订单成交时间'].astype(str)
+    订单表['商家实收金额(元)'] = 订单表['商家实收金额(元)'].apply(lambda x: abs(float(x)))
+    # 合并表格
+    order_bill_data = pd.merge(订单表, grouped_bill, how='left', on='订单号')
+    order_bill_data=pd.merge(order_bill_data,推广表, how='left', on='订单号')
+
+    #所有服务费计算，因为拼多多不管退货不退货都会进行技术服务费收取，并且不会退回，单独计算服务金额
+    Service_order = pd.pivot_table(order_bill_data, index=['订单成交时间'], values=['实际服务金额'],aggfunc={'实际服务金额': np.sum})
+
+    #筛选正常订单，即售后状态为'无售后或售后取消', '售后处理中'两种
+    all_order=order_bill_data[order_bill_data.售后状态.isin(['无售后或售后取消', '售后处理中'])]
+    end_order=pd.pivot_table(all_order,index=['订单成交时间'],values = ['商家实收金额(元)','预估支付佣金（元）','预估招商佣金（元）','订单号'],aggfunc={'商家实收金额(元)':np.sum,'预估支付佣金（元）':np.sum,'预估招商佣金（元）':np.sum,'订单号':len})
+
+    # 修改正确的字段的名称
+    end_order.rename(columns={'商家实收金额(元)': '剩余销售金额'}, inplace=True)
+
+    # 增加算术运算得到的列
+    end_order['运费'] = end_order['订单号'].map(lambda x: round(x * 6, 2))
+    # 透析0['上游成本税'] = 透析0['成本价'].map(lambda x : x*0.08)
+    end_order['平台扣点'] = end_order['剩余销售金额'].map(lambda x: round(x * 0.07, 2))
+    end_order['资金成本'] = end_order['剩余销售金额'].map(lambda x: round(x * 0.02, 2))
+    end_order.drop('订单号', axis=1, inplace=True)
+
+    # 合并表格
+    order_bill_data = pd.merge(end_order, Service_order, how='left', on='订单成交时间')
+    order_bill_data['预估支付佣金（元）'] = order_bill_data['预估支付佣金（元）'] + order_bill_data['预估招商佣金（元）']
+    order_bill_data = order_bill_data.drop("预估招商佣金（元）", axis=1)
+    order_bill_data = order_bill_data.reset_index()
+    order_bill_data = order_bill_data[~order_bill_data.订单成交时间.isin(["NaT"])]
+    order_bill_data = order_bill_data.set_index("订单成交时间")
+    return order_bill_data
+
+
 from PySide2.QtWidgets import QApplication, QMessageBox, QFileDialog, QWidget
 from ui_OrderCost import Ui_Form
 
@@ -196,7 +249,7 @@ class Window(QWidget):
             QMessageBox.about(self, "报错！", '请输入操作人')
             return
 
-        需打开表格名列表 = ['订单表','团长表','联盟表','淘客表'] #成本表需自己选择
+        需打开表格名列表 = ['订单表','团长表','联盟表','淘客表',"账单表","推广表"] #成本表需自己选择
         # 实例化对象,调用方法
         自动提取文件 = AutoExtractFiles(self.清洗后文件夹路径,需打开表格名列表)
         需打开表格字典 = 自动提取文件.handle() #['订单表'：对应文件路径]
@@ -214,7 +267,10 @@ class Window(QWidget):
                 联盟表 = pd.read_excel(v)
             elif k == '淘客表':
                 淘客表 = pd.read_excel(v)
-        
+            elif k == '账单表':
+                账单表 = pd.read_excel(v)
+            elif k == '推广表':
+                推广表 = pd.read_excel(v)
         
         #可以没有备注
         if self.备注 == '':
@@ -230,7 +286,9 @@ class Window(QWidget):
         elif 平台类型 == '快手' :
             订单成本金额表 = 快手订单成本金额表(订单表)
         elif 平台类型 == '天猫' or 平台类型 == '淘宝' :
-            订单成本金额表 = 天猫订单成本金额表(订单表,淘客表)            
+            订单成本金额表 = 天猫订单成本金额表(订单表,淘客表)
+        elif 平台类型 == '拼多多' or 平台类型 == '拼多多' :
+            订单成本金额表 = 拼多多订单成本金额表(订单表,账单表,推广表)
         else :
             QMessageBox.about(self, "报错！", "命名格式错误：平台类型")
             return

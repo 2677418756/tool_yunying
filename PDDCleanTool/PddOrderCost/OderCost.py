@@ -10,7 +10,7 @@ def 订单金额成本表(path):
             order_data = CommonUtil().读取表格(path,文件名);
         elif '账单表' in 文件名:
             bill_data = CommonUtil().读取表格(path,文件名);
-        elif  '推广表' in 文件名:
+        elif '推广表' in 文件名:
             promotion_data = CommonUtil().读取表格(path, 文件名);
         else:
             continue;
@@ -26,9 +26,9 @@ def 订单金额成本表(path):
     bill_data['实际服务金额'] = bill_data['支出金额']+bill_data['收入金额']
     #合并收支金额
     grouped_bill = bill_data.groupby('订单号')['实际服务金额'].sum().reset_index()
-
     promotion_data['预估支付佣金（元）'] = promotion_data['预估支付佣金（元）'].apply(lambda x: abs(float(x)))
     promotion_data['预估招商佣金（元）'] = promotion_data['预估招商佣金（元）'].apply(lambda x: abs(float(x)))
+
     promotion_data.rename(columns={'订单编号': '订单号'}, inplace=True)
     #修改订单表时间
     order_data['订单成交时间'] = pd.to_datetime(order_data['订单成交时间'])
@@ -39,7 +39,7 @@ def 订单金额成本表(path):
     order_bill_data = pd.merge(order_data, grouped_bill, how='left', on='订单号')
     order_bill_data=pd.merge(order_bill_data,promotion_data, how='left', on='订单号')
 
-   #所有服务费计算，因为拼多多不管退货不退货都会进行技术服务费收取，并且不会退回，单独计算服务金额
+    #所有服务费计算，因为拼多多不管退货不退货都会进行技术服务费收取，并且不会退回，单独计算服务金额
     Service_order = pd.pivot_table(order_bill_data, index=['订单成交时间'], values=['实际服务金额'],aggfunc={'实际服务金额': np.sum})
 
     #筛选正常订单，即售后状态为'无售后或售后取消', '售后处理中'两种
@@ -58,8 +58,13 @@ def 订单金额成本表(path):
 
     # 合并表格
     order_bill_data = pd.merge(end_order, Service_order, how='left', on='订单成交时间')
+    order_bill_data['预估支付佣金（元）'] = order_bill_data['预估支付佣金（元）'] + order_bill_data['预估招商佣金（元）']
+    order_bill_data = order_bill_data.drop("预估招商佣金（元）", axis=1)
+    order_bill_data = order_bill_data.reset_index()
+    order_bill_data = order_bill_data[~order_bill_data.订单成交时间.isin(["NaT"])]
+    order_bill_data = order_bill_data.set_index("订单成交时间")
+    pd.DataFrame(order_bill_data).to_csv(r'D:\work\code\test\熔视界7月2日\拼多多-MVAV鞋服工厂店\3、中台表格\订单金额成本表.csv')
 
 
-    pd.DataFrame(order_bill_data).to_csv(r'C:\Users\huanglipan\Desktop\熔视界6月1日\拼多多-MVAV鞋服工厂店\3、中台表格\订单金额成本表.csv')
 if __name__ == '__main__':
-    订单金额成本表(r'C:\Users\huanglipan\Desktop\熔视界6月1日\拼多多-MVAV鞋服工厂店\2、清洗后');
+    订单金额成本表(r'D:\work\code\test\熔视界7月2日\拼多多-MVAV鞋服工厂店\2、清洗后');

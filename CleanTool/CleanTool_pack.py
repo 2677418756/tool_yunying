@@ -128,7 +128,7 @@ def 抖音处理模块(文件所在位置,文件类型,表格类型):
         data['发货日期'] = pd.to_datetime(data['发货时间'])
         data['发货日期'] = data['发货日期'].dt.date
         data['揽件日期'] = pd.to_datetime(data['揽件时间'])
-        data['揽件日期'] = data['揽件日期'].dt.date       
+        data['揽件日期'] = data['揽件日期'].dt.date
         #统一字段名称
         data.rename(columns={'订单编号':'订单编号'},inplace = True)
         判断表格名 = True
@@ -251,7 +251,6 @@ def 抖音处理模块(文件所在位置,文件类型,表格类型):
         
         data_in['收支金额'] = data_in['动账金额']
         data_out['收支金额'] = - data_out['动账金额']
-        
         data = pd.concat([data_in,data_out])
         
         data.reset_index(inplace=True,drop=True)
@@ -333,36 +332,36 @@ def 快手处理模块(文件所在位置,文件类型,表格类型):
         #判断文件类型，防止平台后期修改文件的保存格式
         if 文件类型 == '.xlsx' :
             try:
-                data = pd.read_excel(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','预估推广佣金','商品名称','商品ID','成交数量','售后状态','SKU编码','CPS达人ID','CPS达人昵称','商品单价'])
+                data = pd.read_excel(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','预估推广佣金','商品名称','商品ID','成交数量','售后状态','SKU编码','CPS达人ID','CPS达人昵称','商品单价','团长ID','发货时间','快递单号','快递公司'])
                 data['预估推广佣金'] = data['预估推广佣金'].astype(str)
                 data['预估推广佣金'] = data['预估推广佣金'].astype('float')
                 # data.rename(columns={'预估推广佣金':'订单佣金'},inplace = True)
             except(ValueError):
-                data = pd.read_excel(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','商品名称','商品ID','成交数量','售后状态','SKU编码','CPS达人ID','CPS达人昵称','商品单价'])
+                data = pd.read_excel(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','商品名称','商品ID','成交数量','售后状态','SKU编码','CPS达人ID','CPS达人昵称','商品单价','团长ID','发货时间','快递单号','快递公司'])
                 
         elif 文件类型 == '.csv' :          
             try:       
                 try:
-                    data = pd.read_csv(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','预估推广佣金','商品名称','商品ID','成交数量','售后状态','SKU编码','CPS达人ID','CPS达人昵称','商品单价'])
+                    data = pd.read_csv(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','预估推广佣金','商品名称','商品ID','成交数量','售后状态','SKU编码','CPS达人ID','CPS达人昵称','商品单价','团长ID','发货时间','快递单号','快递公司'])
                     data['预估推广佣金'] = data['预估推广佣金'].astype(str)
                     data['预估推广佣金'] = data['预估推广佣金'].astype('float')
                     # data.rename(columns={'预估推广佣金':'订单佣金'},inplace = True)
                 except(ValueError):
-                    data = pd.read_csv(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','商品名称','商品ID','成交数量','售后状态','SKU编码','CPS达人ID','CPS达人昵称','商品单价'])
+                    data = pd.read_csv(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','商品名称','商品ID','成交数量','售后状态','SKU编码','CPS达人ID','CPS达人昵称','商品单价','团长ID','发货时间','快递单号','快递公司'])
                     
             except(UnicodeDecodeError):
                 try:
-                    data = pd.read_csv(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','预估推广佣金','商品名称','商品ID','成交数量','售后状态','SKU编码','CPS达人ID','CPS达人昵称','商品单价'],encoding='GB18030')
+                    data = pd.read_csv(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','预估推广佣金','商品名称','商品ID','成交数量','售后状态','SKU编码','CPS达人ID','CPS达人昵称','商品单价','团长ID','发货时间','快递单号','快递公司'],encoding='GB18030')
                     data['预估推广佣金'] = data['预估推广佣金'].astype(str)
                     data['预估推广佣金'] = data['预估推广佣金'].astype('float')
                     # data.rename(columns={'预估推广佣金':'订单佣金'},inplace = True)
                 except(ValueError):
-                    data = pd.read_csv(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','商品名称','商品ID','成交数量','售后状态','SKU编码','CPS达人ID','CPS达人昵称','商品单价'],encoding='GB18030')
-                    
+                    data = pd.read_csv(文件所在位置,usecols=['订单号','订单创建时间','订单状态','实付款','商品名称','商品ID','成交数量','售后状态','SKU编码','CPS达人ID','CPS达人昵称','商品单价','团长ID','发货时间','快递单号','快递公司'],encoding='GB18030')
 
         data.rename(columns={'售后状态':'退货退款'},inplace = True)
         #删除无用记录，交易关闭且退货退款为空的订单是未支付订单
-        data = data[~(data.订单状态.isin(['交易关闭'])&data.退货退款.isnull())] 
+        data = data[~(data.订单状态.isin(['交易关闭'])&data.退货退款.isnull())]
+        data = data[data['订单状态'] != '待付款']
         #去除符号转换为可以计算的数字格式
         data['实付款'] = data['实付款'].astype(str)
         data['实付款'] = data['实付款'].str.replace('¥','')                       
@@ -381,11 +380,26 @@ def 快手处理模块(文件所在位置,文件类型,表格类型):
         data['CPS达人ID'] = data['CPS达人ID'].astype(str)
         data['CPS达人ID'] = data['CPS达人ID'].replace('0', '')
 
+
+
         #统一字段的名称
         data.rename(columns={'订单号':'订单编号'},inplace = True)
         # data.rename(columns={'退货退款':'售后状态'},inplace = True)
         data.rename(columns={'实付款':'订单应付金额'},inplace = True)
         data.rename(columns={'SKU编码':'商家编码'}, inplace=True)
+        # 判断表格名 = True
+
+
+        data['发货日期'] = pd.to_datetime(data['发货时间'])
+        data['发货日期'] = data['发货日期'].dt.date
+        # 避免订单号位数过长丢失数据
+        data['快递单号'] = data['快递单号'].astype(str)
+
+        data = data.sort_values(by='发货时间', ascending=True)
+
+        # 统一字段的名称
+        # data.rename(columns={'订单号': '订单编号'}, inplace=True)
+        data.rename(columns={'快递单号': '运单号'}, inplace=True)
         判断表格名 = True
         
     elif 表格类型 == '运单表' :
@@ -433,28 +447,28 @@ def 快手处理模块(文件所在位置,文件类型,表格类型):
 
         判断表格名 = True
 
-    elif 表格类型 == '仓运单表' :
-        #读取文件
-        #判断文件类型，防止平台后期修改文件的保存格式
-        if 文件类型 == '.xlsx' :
-            data = pd.read_excel(文件所在位置,usecols=['发货时间','订单号','快递单号','仓库名称','快递公司'])
-        elif 文件类型 == '.csv' :
-            data = pd.read_csv(文件所在位置,usecols=['发货时间','订单号','快递单号','仓库名称','快递公司'])
-
-        #避免订单号位数过长丢失数据
-        data['发货时间'] = data['发货时间'].map(timeformat)
-        data['发货日期'] = pd.to_datetime(data['发货时间'])
-        data['发货日期'] = data['发货日期'].dt.date
-        data['订单号'] = data['订单号'].astype(str)
-        data['快递单号'] = data['快递单号'].astype(str)
-
-        data = data.sort_values(by='发货时间', ascending=True)
-        data = data.drop_duplicates(subset=['订单号'],keep='first')
-        
-        #统一字段的名称
-        data.rename(columns={'订单号':'订单编号'},inplace = True)
-        data.rename(columns={'快递单号':'运单号'},inplace = True)
-        判断表格名 = True        
+    # elif 表格类型 == '仓运单表' :
+    #     #读取文件
+    #     #判断文件类型，防止平台后期修改文件的保存格式
+    #     if 文件类型 == '.xlsx' :
+    #         data = pd.read_excel(文件所在位置,usecols=['发货时间','订单号','快递单号','仓库名称','快递公司'])
+    #     elif 文件类型 == '.csv' :
+    #         data = pd.read_csv(文件所在位置,usecols=['发货时间','订单号','快递单号','仓库名称','快递公司'])
+    #
+    #     #避免订单号位数过长丢失数据
+    #     data['发货时间'] = data['发货时间'].map(timeformat)
+    #     data['发货日期'] = pd.to_datetime(data['发货时间'])
+    #     data['发货日期'] = data['发货日期'].dt.date
+    #     data['订单号'] = data['订单号'].astype(str)
+    #     data['快递单号'] = data['快递单号'].astype(str)
+    #
+    #     data = data.sort_values(by='发货时间', ascending=True)
+    #     data = data.drop_duplicates(subset=['订单号'],keep='first')
+    #
+    #     #统一字段的名称
+    #     data.rename(columns={'订单号':'订单编号'},inplace = True)
+    #     data.rename(columns={'快递单号':'运单号'},inplace = True)
+    #     判断表格名 = True
 
     elif 表格类型 == '售后表' :
         #读取文件
@@ -889,7 +903,247 @@ def 天猫处理模块(文件所在位置,文件类型,表格类型):
         判断表格名 = True
          
         return (data,判断表格名)
-    
+
+
+def 视频号处理模块(文件所在位置, 文件类型, 表格类型):
+    判断表格名 = False
+
+    def timeformat(timestamp):
+        change = datetime.datetime.strptime(str(timestamp), '%Y/%m/%d %H:%M:%S').strftime('%Y-%m-%d %H:%M:%S')
+        return change
+
+    if 表格类型 == '订单表':
+        # 读取文件
+        # 判断文件类型，防止平台后期修改文件的保存格式
+        if 文件类型 == '.xlsx':
+            try:
+                data = pd.read_excel(文件所在位置,
+                                     usecols=['订单号', '订单创建时间', '订单状态', '实付款', '预估推广佣金', '商品名称', '商品ID', '成交数量', '售后状态',
+                                              'SKU编码', 'CPS达人ID', 'CPS达人昵称', '商品单价', '团长ID', '发货时间', '快递单号', '快递公司'])
+                data['预估推广佣金'] = data['预估推广佣金'].astype(str)
+                data['预估推广佣金'] = data['预估推广佣金'].astype('float')
+                # data.rename(columns={'预估推广佣金':'订单佣金'},inplace = True)
+            except(ValueError):
+                data = pd.read_excel(文件所在位置,
+                                     usecols=['订单号', '订单创建时间', '订单状态', '实付款', '商品名称', '商品ID', '成交数量', '售后状态', 'SKU编码',
+                                              'CPS达人ID', 'CPS达人昵称', '商品单价', '团长ID', '发货时间', '快递单号', '快递公司'])
+
+        elif 文件类型 == '.csv':
+            try:
+                try:
+                    data = pd.read_csv(文件所在位置,
+                                       usecols=['订单号', '订单创建时间', '订单状态', '实付款', '预估推广佣金', '商品名称', '商品ID', '成交数量',
+                                                '售后状态', 'SKU编码', 'CPS达人ID', 'CPS达人昵称', '商品单价', '团长ID', '发货时间', '快递单号',
+                                                '快递公司'])
+                    data['预估推广佣金'] = data['预估推广佣金'].astype(str)
+                    data['预估推广佣金'] = data['预估推广佣金'].astype('float')
+                    # data.rename(columns={'预估推广佣金':'订单佣金'},inplace = True)
+                except(ValueError):
+                    data = pd.read_csv(文件所在位置,
+                                       usecols=['订单号', '订单创建时间', '订单状态', '实付款', '商品名称', '商品ID', '成交数量', '售后状态', 'SKU编码',
+                                                'CPS达人ID', 'CPS达人昵称', '商品单价', '团长ID', '发货时间', '快递单号', '快递公司'])
+
+            except(UnicodeDecodeError):
+                try:
+                    data = pd.read_csv(文件所在位置,
+                                       usecols=['订单号', '订单创建时间', '订单状态', '实付款', '预估推广佣金', '商品名称', '商品ID', '成交数量',
+                                                '售后状态', 'SKU编码', 'CPS达人ID', 'CPS达人昵称', '商品单价', '团长ID', '发货时间', '快递单号',
+                                                '快递公司'], encoding='GB18030')
+                    data['预估推广佣金'] = data['预估推广佣金'].astype(str)
+                    data['预估推广佣金'] = data['预估推广佣金'].astype('float')
+                    # data.rename(columns={'预估推广佣金':'订单佣金'},inplace = True)
+                except(ValueError):
+                    data = pd.read_csv(文件所在位置,
+                                       usecols=['订单号', '订单创建时间', '订单状态', '实付款', '商品名称', '商品ID', '成交数量', '售后状态', 'SKU编码',
+                                                'CPS达人ID', 'CPS达人昵称', '商品单价', '团长ID', '发货时间', '快递单号', '快递公司'],
+                                       encoding='GB18030')
+
+        data.rename(columns={'售后状态': '退货退款'}, inplace=True)
+        # 删除无用记录，交易关闭且退货退款为空的订单是未支付订单
+        data = data[~(data.订单状态.isin(['交易关闭']) & data.退货退款.isnull())]
+        data = data[data['订单状态'] != '待付款']
+        # 去除符号转换为可以计算的数字格式
+        data['实付款'] = data['实付款'].astype(str)
+        data['实付款'] = data['实付款'].str.replace('¥', '')
+        data['实付款'] = data['实付款'].astype('float')
+
+        # 避免订单号位数过长丢失数据
+        data['订单号'] = data['订单号'].astype(str)
+        data['商品ID'] = data['商品ID'].astype(str)
+        # 时间格式转换模块：从时间戳转换成时间组件
+        data['订单创建日期'] = pd.to_datetime(data['订单创建时间'])
+        data['订单创建日期'] = data['订单创建日期'].dt.date
+        data['订单创建日期'] = data['订单创建日期'].astype(str)
+
+        data['CPS达人ID'] = data['CPS达人ID'].astype('Int64')
+        data['CPS达人ID'].fillna(value=0, axis=0, inplace=True)
+        data['CPS达人ID'] = data['CPS达人ID'].astype(str)
+        data['CPS达人ID'] = data['CPS达人ID'].replace('0', '')
+
+        # 统一字段的名称
+        data.rename(columns={'订单号': '订单编号'}, inplace=True)
+        # data.rename(columns={'退货退款':'售后状态'},inplace = True)
+        data.rename(columns={'实付款': '订单应付金额'}, inplace=True)
+        data.rename(columns={'SKU编码': '商家编码'}, inplace=True)
+        # 判断表格名 = True
+
+        data['发货日期'] = pd.to_datetime(data['发货时间'])
+        data['发货日期'] = data['发货日期'].dt.date
+        # 避免订单号位数过长丢失数据
+        data['快递单号'] = data['快递单号'].astype(str)
+
+        data = data.sort_values(by='发货时间', ascending=True)
+
+        # 统一字段的名称
+        # data.rename(columns={'订单号': '订单编号'}, inplace=True)
+        data.rename(columns={'快递单号': '运单号'}, inplace=True)
+        判断表格名 = True
+
+    elif 表格类型 == '运单表':
+        # 读取文件
+        # 判断文件类型，防止平台后期修改文件的保存格式
+        def 删除无用尾缀(string):
+            lit = string.split('.')
+            return lit[0]
+
+        try:
+            if 文件类型 == '.xlsx':
+                data = pd.read_excel(文件所在位置, usecols=['发货/揽收/末条中转/派件/待取件/签收时间', '订单编号', '物流单号'])
+            elif 文件类型 == '.xls':
+                data = pd.read_excel(文件所在位置, usecols=['发货/揽收/末条中转/派件/待取件/签收时间', '订单编号', '物流单号'])
+            elif 文件类型 == '.csv':
+                data = pd.read_csv(文件所在位置, usecols=['发货/揽收/末条中转/派件/待取件/签收时间', '订单编号', '物流单号'])
+            data['物流单号'] = data['物流单号'].astype(str)
+            # 统一字段的名称
+            data.rename(columns={'物流单号': '运单号'}, inplace=True)
+            data.rename(columns={'发货/揽收/末条中转/派件/待取件/签收时间': '发货时间'}, inplace=True)  # 下载内容的本质是揽收就是揽收
+
+        except:
+            if 文件类型 == '.xlsx':
+                data = pd.read_excel(文件所在位置, usecols=['发货时间', '订单编号', '快递单号'])
+            elif 文件类型 == '.csv':
+                data = pd.read_csv(文件所在位置, usecols=['发货时间', '订单编号', '快递单号'])
+            data['快递单号'] = data['快递单号'].astype(str)
+            # 统一字段的名称
+            data.rename(columns={'快递单号': '运单号'}, inplace=True)
+
+        # 避免订单号位数过长丢失数据
+        data.dropna(axis=0, subset=['订单编号'], how='any', inplace=True)
+        data.dropna(axis=0, subset=['发货时间'], how='any', inplace=True)
+        data['订单编号'] = data['订单编号'].astype(np.int64)
+        data['订单编号'] = data['订单编号'].astype(str)
+        data['订单编号'] = data['订单编号'].map(删除无用尾缀)
+
+        try:
+            data['发货时间'] = data['发货时间'].map(timeformat)
+        except:
+            pass
+        data['发货日期'] = pd.to_datetime(data['发货时间'])
+        data['发货日期'] = data['发货日期'].dt.date
+
+        判断表格名 = True
+
+    # elif 表格类型 == '仓运单表' :
+    #     #读取文件
+    #     #判断文件类型，防止平台后期修改文件的保存格式
+    #     if 文件类型 == '.xlsx' :
+    #         data = pd.read_excel(文件所在位置,usecols=['发货时间','订单号','快递单号','仓库名称','快递公司'])
+    #     elif 文件类型 == '.csv' :
+    #         data = pd.read_csv(文件所在位置,usecols=['发货时间','订单号','快递单号','仓库名称','快递公司'])
+    #
+    #     #避免订单号位数过长丢失数据
+    #     data['发货时间'] = data['发货时间'].map(timeformat)
+    #     data['发货日期'] = pd.to_datetime(data['发货时间'])
+    #     data['发货日期'] = data['发货日期'].dt.date
+    #     data['订单号'] = data['订单号'].astype(str)
+    #     data['快递单号'] = data['快递单号'].astype(str)
+    #
+    #     data = data.sort_values(by='发货时间', ascending=True)
+    #     data = data.drop_duplicates(subset=['订单号'],keep='first')
+    #
+    #     #统一字段的名称
+    #     data.rename(columns={'订单号':'订单编号'},inplace = True)
+    #     data.rename(columns={'快递单号':'运单号'},inplace = True)
+    #     判断表格名 = True
+
+    elif 表格类型 == '售后表':
+        # 读取文件
+        # 判断文件类型，防止平台后期修改文件的保存格式
+        if 文件类型 == '.xlsx':
+            try:
+                data = pd.read_excel(文件所在位置, usecols=['订单编号', '售后状态', '售后类型', '售后申请时间', '退款金额'])
+                data['售后申请日期'] = pd.to_datetime(data['售后申请时间'])
+                data['售后申请日期'] = data['售后申请日期'].dt.date
+            except(ValueError):
+                data = pd.read_excel(文件所在位置, usecols=['订单编号', '售后状态', '售后类型', '申请时间', '退款金额'])
+                data.rename(columns={'申请时间': '售后申请时间'}, inplace=True)
+                data['售后申请日期'] = pd.to_datetime(data['售后申请时间'])
+                data['售后申请日期'] = data['售后申请日期'].dt.date
+        elif 文件类型 == '.csv':
+            try:
+                data = pd.read_csv(文件所在位置, usecols=['订单编号', '售后状态', '售后类型', '售后申请时间', '退款金额'])
+                data['售后申请日期'] = pd.to_datetime(data['售后申请时间'])
+                data['售后申请日期'] = data['售后申请日期'].dt.date
+            except(ValueError):
+                data = pd.read_csv(文件所在位置, usecols=['订单编号', '售后状态', '售后类型', '申请时间', '退款金额'])
+                data.rename(columns={'申请时间': '售后申请时间'}, inplace=True)
+                data['售后申请日期'] = pd.to_datetime(data['售后申请时间'])
+                data['售后申请日期'] = data['售后申请日期'].dt.date
+        # 删除无用记录，只留下退款成功
+        data = data[~(data.售后状态.isin(['售后失败', '售后关闭']))]
+
+        # 【待更新算法】 可以把去掉售后关闭后的，依然还重复的订单号，金额上求和，申请日期保留最早那个
+        data = data.sort_values(by='退款金额', ascending=False)
+        data = data.drop_duplicates(subset=['订单编号'], keep='first')
+
+        # 去除符号转换为可以计算的数字格式
+        data['退款金额'] = data['退款金额'].astype(str)
+        data['退款金额'] = data['退款金额'].str.replace('¥', '')
+        data['退款金额'] = data['退款金额'].astype('float')
+        # 格式转换
+
+        # #时间格式转换模块：从时间戳转换成时间组件
+        # data['订单创建日期'] = pd.to_datetime(data['订单创建时间'])
+        # data['订单创建日期'] = data['订单创建日期'].dt.date
+        # data['订单创建日期'] = data['订单创建日期'].astype(str)
+        # #将退款金额改名，防止后面冲突
+        # data.rename(columns = {'退款金额':'应退款金额'},inplace = True)
+        # 一定要将多位数的订单编号转成字符串
+        data['订单编号'] = data['订单编号'].astype(str)
+        # data['申请时间'] = data['申请时间'].astype(str)
+
+        # 统一字段名称
+        data.rename(columns={'退款金额': '实退款金额'}, inplace=True)
+
+        判断表格名 = True
+
+    elif 表格类型 == '账单表':
+        if 文件类型 == '.xlsx':
+            data = pd.read_excel(文件所在位置, usecols=['订单号', '实际结算金额(元)', '实际结算时间', '订单创建时间'])
+        elif 文件类型 == '.csv':
+            try:
+                data = pd.read_csv(文件所在位置, usecols=['订单号', '实际结算金额(元)', '实际结算时间', '订单创建时间'])
+            except(UnicodeDecodeError):
+                data = pd.read_csv(文件所在位置, usecols=['订单号', '实际结算金额(元)', '实际结算时间', '订单创建时间'], encoding='GB18030')
+
+        # 将时间戳转换为datetime格式,dt.date单位为天,str方便用户看
+        data['订单创建日期'] = pd.to_datetime(data['订单创建时间'])
+        data['订单创建日期'] = data['订单创建日期'].dt.date
+        data['订单创建日期'] = data['订单创建日期'].astype(str)
+        data['实际结算日期'] = pd.to_datetime(data['实际结算时间'])
+        data['实际结算日期'] = data['实际结算日期'].dt.date
+        data['实际结算日期'] = data['实际结算日期'].astype(str)
+
+        data['订单号'] = data['订单号'].astype(str)
+        # 统一字段的名称
+        data.rename(columns={'订单号': '订单编号'}, inplace=True)
+        判断表格名 = True
+
+    else:
+        print('文件命名错误(订单表，运单表，售后表)')
+
+    return (data, 判断表格名)
+
 from PySide2.QtWidgets import QApplication, QMessageBox, QFileDialog, QWidget
 from ui_CleanTool import Ui_Form
 
@@ -972,14 +1226,14 @@ class Clean(QWidget):
                 数据表,self.判断表格名 = 快手处理模块(文件所在位置, 文件类型, 表格类型)
             elif 平台类型 == '抖音':
                 数据表,self.判断表格名 = 抖音处理模块(文件所在位置, 文件类型, 表格类型)
-            elif 平台类型 == '拼多多' :
+            elif 平台类型 == '拼多多':
                 数据表 = 拼多多理模块(self.输入路径,文件名)
                 self.判断表格名 = True
-            elif 平台类型 == '京东' :
+            elif 平台类型 == '京东':
                 数据表,self.判断表格名 = 京东处理模块(文件所在位置,文件类型,表格类型)
-            elif 平台类型 == '天猫' :
+            elif 平台类型 == '天猫':
                 数据表,self.判断表格名 = 天猫处理模块(文件所在位置,文件类型,表格类型)
-            elif 平台类型 == '淘宝' :
+            elif 平台类型 == '淘宝':
                 #淘宝的逻辑暂时等同于天猫
                 数据表,self.判断表格名 = 天猫处理模块(文件所在位置,文件类型,表格类型)
             else:
