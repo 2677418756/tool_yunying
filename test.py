@@ -5,7 +5,7 @@ data = pd.read_excel("D:/work/code/test/熔视界7月2日/抖音-MVAV鞋服工�
 print(data[data.columns[0]])
 print("*"*100)
 # 获取表头
-print(data.columns)
+print(len(data.columns))
 print("*"*100)
 # 获取第一列第一个数据
 print(data[data.columns[0]][0])
