@@ -336,6 +336,8 @@ def 拼多多全订单状态表(path):
 
     # 订单佣金（预估支付佣金+预估招商佣金） 每个订单对应一条记录
     commission_est_data = commission_data.loc[:, ['订单号', '预估支付佣金', '预估招商佣金']]
+    commission_est_data['预估支付佣金'] = commission_est_data['预估支付佣金'].astype(float)
+    commission_est_data['预估招商佣金'] = commission_est_data['预估招商佣金'].astype(float)
     commission_est_data['预估推广佣金'] = commission_est_data['预估支付佣金'] + commission_est_data['预估招商佣金']
 
     # 结算状态为 交易收入 每个订单对应一条记录

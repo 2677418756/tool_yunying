@@ -4,7 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5a51ad54-a59d-4535-99fe-3e766cb17a94" name="Changes" comment="" />
+    <list default="true" id="5a51ad54-a59d-4535-99fe-3e766cb17a94" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/DB_Pretreatment.spec" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/build/DB_Pretreatment/Analysis-00.toc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/build/DB_Pretreatment/DB_Pretreatment.pkg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/build/DB_Pretreatment/EXE-00.toc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/build/DB_Pretreatment/PKG-00.toc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/build/DB_Pretreatment/PYZ-00.pyz" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/build/DB_Pretreatment/PYZ-00.toc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/build/DB_Pretreatment/base_library.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/build/DB_Pretreatment/warn-DB_Pretreatment.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/build/DB_Pretreatment/xref-DB_Pretreatment.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/dist/DB_Pretreatment.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/DB_Pretreatment.py" beforeDir="false" afterPath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/DB_Pretreatment.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -60,7 +74,7 @@
       <recent name="D:\work\运营\code\tenglan_-python_-windows_-tools\DB_Project\DB_Pretreatment" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.BillReceive">
+  <component name="RunManager" selected="Python.DB_Pretreatment">
     <configuration name="BillReceive" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="tenglan_-python_-windows_-tools" />
       <option name="ENV_FILES" value="" />
@@ -173,11 +187,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.DB_Pretreatment" />
         <item itemvalue="Python.BillReceive" />
         <item itemvalue="Python.PDDBillReceive" />
         <item itemvalue="Python.test" />
         <item itemvalue="Python.CommonUtil" />
-        <item itemvalue="Python.DB_Pretreatment" />
       </list>
     </recent_temporary>
   </component>
