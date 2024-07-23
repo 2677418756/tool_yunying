@@ -5,19 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5a51ad54-a59d-4535-99fe-3e766cb17a94" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/DB_Pretreatment.spec" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/build/DB_Pretreatment/Analysis-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/build/DB_Pretreatment/DB_Pretreatment.pkg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/build/DB_Pretreatment/EXE-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/build/DB_Pretreatment/PKG-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/build/DB_Pretreatment/PYZ-00.pyz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/build/DB_Pretreatment/PYZ-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/build/DB_Pretreatment/base_library.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/build/DB_Pretreatment/warn-DB_Pretreatment.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/build/DB_Pretreatment/xref-DB_Pretreatment.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/dist/DB_Pretreatment.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/DB_Pretreatment.py" beforeDir="false" afterPath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/DB_Pretreatment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CleanTool/PDDCleanTool.py" beforeDir="false" afterPath="$PROJECT_DIR$/CleanTool/PDDCleanTool.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/DB_Pretreatment.spec" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/build/DB_Pretreatment/Analysis-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/build/DB_Pretreatment/DB_Pretreatment.pkg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/build/DB_Pretreatment/EXE-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/build/DB_Pretreatment/PKG-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/build/DB_Pretreatment/PYZ-00.pyz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/build/DB_Pretreatment/PYZ-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/build/DB_Pretreatment/base_library.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/build/DB_Pretreatment/warn-DB_Pretreatment.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/build/DB_Pretreatment/xref-DB_Pretreatment.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/dist/DB_Pretreatment.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderAmount/OrderAmount.py" beforeDir="false" afterPath="$PROJECT_DIR$/OrderAmount/OrderAmount.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderAmount/build/OrderAmount/Analysis-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderAmount/build/OrderAmount/EXE-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderAmount/build/OrderAmount/OrderAmount.pkg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderAmount/build/OrderAmount/PKG-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderAmount/build/OrderAmount/PYZ-00.pyz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderAmount/build/OrderAmount/PYZ-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderAmount/build/OrderAmount/base_library.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderAmount/build/OrderAmount/warn-OrderAmount.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderAmount/build/OrderAmount/xref-OrderAmount.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderAmount/dist/OrderAmount.exe" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,7 +76,7 @@
     "Python.天猫账单回款表测试.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "D:/work/财务/code/tool",
+    "last_opened_file_path": "D:/work/运营/code/tenglan_-python_-windows_-tools",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
@@ -74,7 +85,7 @@
       <recent name="D:\work\运营\code\tenglan_-python_-windows_-tools\DB_Project\DB_Pretreatment" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.DB_Pretreatment">
+  <component name="RunManager" selected="Python.CleanTool_pack">
     <configuration name="BillReceive" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="tenglan_-python_-windows_-tools" />
       <option name="ENV_FILES" value="" />
@@ -97,7 +108,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="CommonUtil" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="CleanTool_pack" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="tenglan_-python_-windows_-tools" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -106,11 +117,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/CleanTool" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/CommonUtil.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/CleanTool/CleanTool_pack.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -141,6 +152,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="OrderAmount" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="tenglan_-python_-windows_-tools" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/OrderAmount" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/OrderAmount/OrderAmount.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="PDDBillReceive" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="tenglan_-python_-windows_-tools" />
       <option name="ENV_FILES" value="" />
@@ -163,35 +196,13 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="tenglan_-python_-windows_-tools" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.CleanTool_pack" />
+        <item itemvalue="Python.OrderAmount" />
         <item itemvalue="Python.DB_Pretreatment" />
         <item itemvalue="Python.BillReceive" />
         <item itemvalue="Python.PDDBillReceive" />
-        <item itemvalue="Python.test" />
-        <item itemvalue="Python.CommonUtil" />
       </list>
     </recent_temporary>
   </component>

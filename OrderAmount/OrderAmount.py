@@ -131,10 +131,9 @@ def 快手订单金额表(订单表,售后表) :
     data3['退货金额'] = data3['退货金额'] * data3['实退款金额']
     #【快手独特处理】将有退款退货的订单佣金列强制改为0
     data3['预估推广佣金标志'] = data3['售后类型'].map(订单佣金处理)
-    data3['预估推广佣金'] = data3['预估推广佣金'] * data3['预估推广佣金标志']
 
     #建立订单金额透析表
-    data5 = pd.pivot_table(data3,index=['订单创建日期'],values=['订单应付金额','退款金额','退货金额','预估推广佣金'],aggfunc = [np.sum])
+    data5 = pd.pivot_table(data3,index=['订单创建日期'],values=['订单应付金额','退款金额','退货金额'],aggfunc = [np.sum])
     #去除表头sum
     data5.columns = data5.columns.droplevel(0)
     

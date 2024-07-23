@@ -4,6 +4,7 @@ from CommonUtil import CommonUtil
 def 售后表清洗(路径, 文件名):
     # 根据文件扩展名读取数据集
     data = CommonUtil().读取表格(path=路径, name=文件名)
+    data = data.fillna("")
     # 将DataFrame中的所有列转换为字符串类型
     data = data.astype(str)
     # 筛选'售后状态'为'退款成功'的行
