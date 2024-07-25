@@ -7,19 +7,7 @@
     <list default="true" id="5a51ad54-a59d-4535-99fe-3e766cb17a94" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CleanTool/CleanTool_pack.py" beforeDir="false" afterPath="$PROJECT_DIR$/CleanTool/CleanTool_pack.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CleanTool/CleanTool_pack.spec" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CleanTool/build/CleanTool_pack/Analysis-00.toc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CleanTool/build/CleanTool_pack/CleanTool_pack.pkg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CleanTool/build/CleanTool_pack/EXE-00.toc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CleanTool/build/CleanTool_pack/PKG-00.toc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CleanTool/build/CleanTool_pack/PYZ-00.pyz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CleanTool/build/CleanTool_pack/PYZ-00.toc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CleanTool/build/CleanTool_pack/base_library.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CleanTool/build/CleanTool_pack/warn-CleanTool_pack.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CleanTool/build/CleanTool_pack/xref-CleanTool_pack.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CleanTool/dist/CleanTool_pack.exe" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/DB_Pretreatment.py" beforeDir="false" afterPath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/DB_Pretreatment.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

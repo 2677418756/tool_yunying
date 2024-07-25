@@ -147,6 +147,21 @@ def 抖音全订单状态表(union,账单表_处理, date):
     # print(type(date))
     统计日期 = datetime.datetime.strptime(date, '%Y-%m-%d').date()
 
+
+    try:
+        union = union.drop("实际结算金额(元)", axis=1)
+    except:
+        pass
+    try:
+        union = union.drop("实际结算时间", axis=1)
+    except:
+        pass
+
+    union = pd.merge(union, 账单表_处理[["商品单号", "实际结算金额(元)","实际结算时间","已回部分退"]], how='left', left_on='商品单号', right_on='商品单号')
+
+    union['实际结算金额(元)'] = union['实际结算金额(元)'].fillna(0)
+    union["实际结算时间"] = union["实际结算时间"].fillna('2000-01-01 00:00:00')
+
     #
     有售后 = union[~(union['售后申请时间'].isin(['2000-01-01 00:00:00']))]
     无售后 = union[union['售后申请时间'].isin(['2000-01-01 00:00:00'])]
@@ -155,8 +170,6 @@ def 抖音全订单状态表(union,账单表_处理, date):
     已回 = 无售后[~(无售后['实际结算时间'].isin(['2000-01-01 00:00:00']))]
     待回 = 无售后[无售后['实际结算时间'].isin(['2000-01-01 00:00:00'])]
 
-
-    回退['实际结算金额(元)'] = 回退['实际结算金额(元)'].map(lambda x: -float(x))
     回退['回退状态'] = '回退'
     已退['回退状态'] = '已退'
     已回['回退状态'] = '已回'
@@ -172,19 +185,6 @@ def 抖音全订单状态表(union,账单表_处理, date):
     frame = pd.concat([frame, 回退])
     # 在终端改变名称，方便写入数据库
 
-    try:
-        frame = frame.drop("实际结算金额(元)", axis=1)
-    except:
-        pass
-    try:
-        frame = frame.drop("实际结算时间", axis=1)
-    except:
-        pass
-
-    frame = pd.merge(frame, 账单表_处理[["商品单号", "实际结算金额(元)","实际结算时间","已回部分退"]], how='left', left_on='商品单号', right_on='商品单号')
-
-
-
     frame.rename(columns={'实际结算金额(元)': '实际结算金额'}, inplace=True)
     揽收可授信统计.rename(columns={'实际结算金额(元)': '实际结算金额'}, inplace=True)
     frame['统计时间'] = datetime.datetime.now()
@@ -194,12 +194,17 @@ def 抖音全订单状态表(union,账单表_处理, date):
 
     frame['实际结算金额'] = frame['实际结算金额'].where(abs(frame['实际结算金额']) >= 0.001, 0)
 
+
+    frame_非回退 = frame[~frame.回退状态.isin(["回退"])]
     frame_回退 = frame[frame.回退状态.isin(["回退"])]
     真回退 = frame_回退[frame_回退['实际结算时间'] < frame_回退['售后申请时间']]
     假回退 = frame_回退[frame_回退['实际结算时间'] >= frame_回退['售后申请时间']]
 
     真回退['回退状态'] = '回退'
     假回退['回退状态'] = '已退'
+
+    frame = pd.concat([frame_非回退, 真回退,假回退])
+
 
 
     frame_非回退 = frame[~frame.回退状态.isin(["回退"])]
@@ -303,6 +308,19 @@ def 快手全订单状态表(union, date):
     揽收可授信统计.rename(columns={'实际结算金额(元)': '实际结算金额'}, inplace=True)
     frame['统计时间'] = datetime.datetime.now()
     frame.reset_index(inplace=True, drop=True)
+
+    frame_回退 = frame[frame.回退状态.isin(["回退"])]
+    frame_非回退 = frame[~frame.回退状态.isin(["回退"])]
+
+    frame_回退['回退状态'] = frame_回退['回退状态'].where(abs(frame_回退['实际结算金额']) <= 0, "已回部分退")
+
+
+    # frame_回退_部分退 = frame_回退[~frame_回退['实际结算金额'].isin([0])]
+    # frame_回退_非部分退 = frame_回退[frame_回退['实际结算金额'].isin([0])]
+
+    # frame_回退_部分退["回退状态"] = "已回部分退"
+
+    frame = pd.concat([frame_非回退,frame_回退])
 
     return frame, 揽收可授信统计
 
@@ -558,7 +576,7 @@ class Window(QWidget):
             )
             账单表_处理 = 账单表_处理.reset_index()
 
-            账单表_处理["已回部分退"] = 账单表_处理["运费实付"] + 账单表_处理["订单退款"] - 账单表_处理["订单实付应结"]
+            账单表_处理["已回部分退"] = 账单表_处理["运费实付"] + 账单表_处理["订单退款"] - 账单表_处理["实际结算金额(元)"]
             def 用于区分(x):
                 if x < 0:
                     return "已回部分退"

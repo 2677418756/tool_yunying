@@ -526,14 +526,14 @@ def 快手处理模块(文件所在位置,文件类型,表格类型):
 
         判断表格名 = True
         
-    elif 表格类型 == '账单表' :
+    elif 表格类型 == '账单表':
         if 文件类型 == '.xlsx' :
-            data = pd.read_excel(文件所在位置,usecols=['订单号','实际结算金额(元)','实际结算时间','订单创建时间'])
+            data = pd.read_excel(文件所在位置,usecols=['订单号','实际结算时间','订单创建时间',"合计收入(元)","合计支出(元)"])
         elif 文件类型 == '.csv' :            
             try:       
-                data = pd.read_csv(文件所在位置,usecols=['订单号','实际结算金额(元)','实际结算时间','订单创建时间'])
+                data = pd.read_csv(文件所在位置,usecols=['订单号','实际结算时间','订单创建时间',"合计收入(元)","合计支出(元)"])
             except(UnicodeDecodeError):
-                data = pd.read_csv(文件所在位置,usecols=['订单号','实际结算金额(元)','实际结算时间','订单创建时间'],encoding='GB18030')
+                data = pd.read_csv(文件所在位置,usecols=['订单号','实际结算时间','订单创建时间',"合计收入(元)","合计支出(元)"],encoding='GB18030')
                 
         #将时间戳转换为datetime格式,dt.date单位为天,str方便用户看
         data['订单创建日期'] = pd.to_datetime(data['订单创建时间'])
@@ -542,6 +542,10 @@ def 快手处理模块(文件所在位置,文件类型,表格类型):
         data['实际结算日期'] = pd.to_datetime(data['实际结算时间'])
         data['实际结算日期'] = data['实际结算日期'].dt.date
         data['实际结算日期'] = data['实际结算日期'].astype(str)
+
+        data['合计收入(元)'] = data['合计收入(元)'].astype(float)
+        data['合计支出(元)'] = data['合计支出(元)'].astype(float)
+        data['实际结算金额(元)'] = data['合计收入(元)'] - data['合计支出(元)']
         
         data['订单号'] = data['订单号'].astype(str)  
         #统一字段的名称
