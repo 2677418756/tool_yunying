@@ -206,18 +206,17 @@ def 抖音处理模块(文件所在位置,文件类型,表格类型):
         data.rename(columns={'子订单号':'商品单号'},inplace = True)
         data.rename(columns={'订单号':'订单编号'},inplace = True)
         data.rename(columns={'结算金额':'实际结算金额(元)'},inplace = True) 
-        
-        
+
         判断表格名 = True
   
     elif 表格类型 == '账单表' :
         if 文件类型 == '.xlsx' :
-            data = pd.read_excel(文件所在位置,usecols=['动帐流水号','动账金额','动账时间','下单时间','动账方向','备注','子订单号','订单号','商品ID'])
+            data = pd.read_excel(文件所在位置,usecols=['动帐流水号','动账金额','动账时间','下单时间','动账方向','备注','子订单号','订单号','商品ID','订单实付应结', '运费实付', '订单退款'])
         elif 文件类型 == '.csv' :
             try:       
-                data = pd.read_csv(文件所在位置,usecols=['动帐流水号','动账金额','动账时间','下单时间','动账方向','备注','子订单号','订单号','商品ID'])
+                data = pd.read_csv(文件所在位置,usecols=['动帐流水号','动账金额','动账时间','下单时间','动账方向','备注','子订单号','订单号','商品ID','订单实付应结', '运费实付', '订单退款'])
             except(UnicodeDecodeError):
-                data = pd.read_csv(文件所在位置,usecols=['动帐流水号','动账金额','动账时间','下单时间','动账方向','备注','子订单号','订单号','商品ID'],encoding='GB18030')
+                data = pd.read_csv(文件所在位置,usecols=['动帐流水号','动账金额','动账时间','下单时间','动账方向','备注','子订单号','订单号','商品ID','订单实付应结', '运费实付', '订单退款'],encoding='GB18030')
         
         """
         账单表整理分享： 退回给用户的形式在账单表中有两种——
@@ -229,21 +228,25 @@ def 抖音处理模块(文件所在位置,文件类型,表格类型):
         #将时间戳转换为datetime格式,dt.date单位为天,str方便用户看
         data['下单日期'] = pd.to_datetime(data['下单时间'])
         data['下单日期'] = data['下单日期'].dt.date
+        data['下单日期'] = data['下单日期'].fillna("")
         data['下单日期'] = data['下单日期'].astype(str)
         data['动账日期'] = pd.to_datetime(data['动账时间'])
         data['动账日期'] = data['动账日期'].dt.date
         data['动账日期'] = data['动账日期'].astype(str)
+
+        data['商品ID'] = data['商品ID'].fillna("")
         data['商品ID'] = data['商品ID'].astype(str)
         data['商品ID'] = data['商品ID'].str.strip('\'')
         data['订单号'] = data['订单号'].astype(str)
         data['订单号'] = data['订单号'].str.strip('\'')
-        data['子订单号'] = data['子订单号'].astype(str)
-        data['子订单号'] = data['子订单号'].str.strip('\'')
+        data = data[~data.子订单号.isna()]
         # data = data[(data.动账方向.isin(['入账']))]
          
-        #入账中只需要订单结算，服务费返还,极速退款分账
-        #出账中的状态只保留原路退和已退款
-        data = data[data['动账摘要'].isin(['极速退款分账'])|data['动账摘要'].isin(['订单结算'])|data['动账摘要'].isin(['原路退'])|data['动账摘要'].isin(['已退款'])|data['动账摘要'].isin(['服务费返还'])]
+        # #入账中只需要订单结算，服务费返还,极速退款分账
+        # #出账中的状态只保留原路退和已退款
+        # data = data[data['动账摘要'].isin(['极速退款分账'])|data['动账摘要'].isin(['订单结算'])|data['动账摘要'].isin(['原路退'])|data['动账摘要'].isin(['已退款'])|data['动账摘要'].isin(['服务费返还'])]
+
+
         #处理动账金额
         # data['收支金额'] = 0
         data_in = data[data['动账方向'].isin(['入账'])]
@@ -258,7 +261,7 @@ def 抖音处理模块(文件所在位置,文件类型,表格类型):
         # data.dropna(axis = 0 ,how = 'any',inplace=True)
         #【智能去重功能，根据动账流水号去重，且只能放在筛选之后】
         data = data.drop_duplicates('动帐流水号')
-        data = data.loc[:,['动帐流水号','订单号','子订单号','下单日期','动账日期','动账摘要','收支金额','下单时间','动账时间','商品ID','动账方向']]
+        data = data.loc[:,['动帐流水号','订单号','子订单号','下单日期','动账日期','动账摘要','收支金额','下单时间','动账时间','商品ID','动账方向','订单实付应结','运费实付','订单退款']]
         #统一字段名称
         data.rename(columns={'下单时间':'订单创建时间'},inplace = True)
         data.rename(columns={'下单日期':'订单创建日期'},inplace = True)
@@ -266,8 +269,8 @@ def 抖音处理模块(文件所在位置,文件类型,表格类型):
         data.rename(columns={'动账日期':'实际结算日期'},inplace = True)
         data.rename(columns={'子订单号':'商品单号'},inplace = True)
         data.rename(columns={'订单号':'订单编号'},inplace = True)
-        data.rename(columns={'收支金额':'实际结算金额(元)'},inplace = True) 
-        
+        data.rename(columns={'收支金额':'实际结算金额(元)'},inplace = True)
+        data["商品单号"] = data["商品单号"].apply(lambda x:str(x).replace("'",""))
         判断表格名 = True
         
     elif 表格类型 == '联盟表' :
