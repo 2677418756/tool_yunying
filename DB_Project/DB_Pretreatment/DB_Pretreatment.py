@@ -157,7 +157,17 @@ def 抖音全订单状态表(union,账单表_处理, date):
     except:
         pass
 
-    union = pd.merge(union, 账单表_处理[["商品单号", "实际结算金额(元)","实际结算时间","已回部分退"]], how='left', left_on='商品单号', right_on='商品单号')
+    union = pd.merge(union, 账单表_处理[["商品单号","已回部分退","实际结算金额(元)","实际结算时间"]], how='left', left_on='商品单号', right_on='商品单号')
+    union["已回部分退"] = union["已回部分退"].fillna(0)
+    union["已回部分退"] = union["已回部分退"].astype(float)
+    union["已回部分退"] = union["已回部分退"] + union["订单应付金额"]
+    def 用于区分(x):
+        if x < 0:
+            return "已回部分退"
+        else:
+            return "已回"
+
+    账单表_处理["已回部分退"] = 账单表_处理["已回部分退"].apply(用于区分)
 
     union['实际结算金额(元)'] = union['实际结算金额(元)'].fillna(0)
     union["实际结算时间"] = union["实际结算时间"].fillna('2000-01-01 00:00:00')
@@ -205,14 +215,12 @@ def 抖音全订单状态表(union,账单表_处理, date):
 
     frame = pd.concat([frame_非回退, 真回退,假回退])
 
+    frame_回退已退 = frame[frame.回退状态.isin(["回退","已退"])]
+    frame_非回退已退 = frame[~frame.回退状态.isin(["回退","已退"])]
 
+    frame_回退已退['回退状态'] = frame_回退已退['回退状态'].where(frame_回退已退['实际结算金额'] <= 0, "已回部分退")
 
-    frame_非回退 = frame[~frame.回退状态.isin(["回退"])]
-    frame_回退_部分退 = 真回退[真回退["已回部分退"].isin(["已回部分退"]) & (~真回退["实际结算金额"].isin([0]))]
-    frame_回退_非部分退 = 真回退[~真回退["已回部分退"].isin(["已回部分退"]) | (真回退["已回部分退"].isin(["已回部分退"]) & 真回退["实际结算金额"].isin([0]))]
-    frame_回退_部分退["回退状态"] = "已回部分退"
-
-    frame = pd.concat([frame_非回退,frame_回退_部分退,frame_回退_非部分退])
+    frame = pd.concat([frame_回退已退,frame_非回退已退])
 
 
     return frame, 揽收可授信统计
@@ -309,10 +317,10 @@ def 快手全订单状态表(union, date):
     frame['统计时间'] = datetime.datetime.now()
     frame.reset_index(inplace=True, drop=True)
 
-    frame_回退 = frame[frame.回退状态.isin(["回退"])]
-    frame_非回退 = frame[~frame.回退状态.isin(["回退"])]
+    frame_回退已退 = frame[frame.回退状态.isin(["回退","已退"])]
+    frame_非回退已退 = frame[~frame.回退状态.isin(["回退","已退"])]
 
-    frame_回退['回退状态'] = frame_回退['回退状态'].where(abs(frame_回退['实际结算金额']) <= 0, "已回部分退")
+    frame_回退已退['回退状态'] = frame_回退已退['回退状态'].where(frame_回退已退['实际结算金额'] <= 0, "已回部分退")
 
 
     # frame_回退_部分退 = frame_回退[~frame_回退['实际结算金额'].isin([0])]
@@ -320,7 +328,8 @@ def 快手全订单状态表(union, date):
 
     # frame_回退_部分退["回退状态"] = "已回部分退"
 
-    frame = pd.concat([frame_非回退,frame_回退])
+    frame = pd.concat([frame_回退已退,frame_非回退已退])
+
 
     return frame, 揽收可授信统计
 
@@ -554,35 +563,29 @@ class Window(QWidget):
                 elif k == '售后表':
                     售后表 = pd.read_excel(v, usecols=['商品单号', '售后状态', '售后申请时间'])
                 elif k == '账单表':
-                    账单表 = pd.read_excel(v, usecols=['商品单号', '实际结算时间', '动账摘要', '实际结算金额(元)','动账方向','订单实付应结','运费实付','订单退款','运费实付','订单实付应结'],dtype=str)
+                    账单表 = pd.read_excel(v, usecols=['商品单号', '实际结算时间', '动账摘要', '实际结算金额(元)','动账方向','订单退款','运费实付'],dtype=str)
                 elif k == '运单表':
                     运单表 = pd.read_excel(v, usecols=['订单编号', '揽件时间', '运单号'])
                 elif k == '仓运单表':
                     运单表 = pd.read_excel(v, usecols=['订单编号', '揽件时间', '运单号'])
 
             # 账单表处理
-            账单表_处理 = 账单表[["实际结算金额(元)","商品单号","实际结算时间","运费实付","订单退款","订单实付应结"]]
+            账单表_处理 = 账单表[["实际结算金额(元)","商品单号","实际结算时间","运费实付","订单退款"]]
             账单表_处理["实际结算金额(元)"]=账单表_处理["实际结算金额(元)"].astype(float)
             账单表_处理["运费实付"] = 账单表_处理["运费实付"].apply(lambda x:abs(float(x)))
             账单表_处理["订单退款"] = 账单表_处理["订单退款"].astype(float)
-            账单表_处理["订单实付应结"] = 账单表_处理["订单实付应结"].astype(float)
 
             账单表_处理["实际结算时间"] = pd.to_datetime(账单表_处理["实际结算时间"])
             账单表_处理 = pd.pivot_table(  # 整理函数
                 账单表_处理,
                 index=['商品单号'],
-                values=['实际结算金额(元)',"实际结算时间","运费实付","订单退款","订单实付应结"],
-                aggfunc={'实际结算金额(元)': np.sum,"实际结算时间":np.min,"运费实付":np.sum,"订单退款":np.sum,"订单实付应结":np.sum}
+                values=['实际结算金额(元)',"实际结算时间","运费实付","订单退款"],
+                aggfunc={'实际结算金额(元)': np.sum,"实际结算时间":np.min,"运费实付":np.sum,"订单退款":np.sum}
             )
             账单表_处理 = 账单表_处理.reset_index()
 
-            账单表_处理["已回部分退"] = 账单表_处理["运费实付"] + 账单表_处理["订单退款"] - 账单表_处理["实际结算金额(元)"]
-            def 用于区分(x):
-                if x < 0:
-                    return "已回部分退"
-                else:
-                    return "已回"
-            账单表_处理["已回部分退"] = 账单表_处理["已回部分退"].apply(用于区分)
+            账单表_处理["已回部分退"] = 账单表_处理["运费实付"] + 账单表_处理["订单退款"]
+
 
             账单表 = 账单表[['商品单号', '实际结算时间', '动账摘要', '实际结算金额(元)']]
             账单表["实际结算金额(元)"] = 账单表["实际结算金额(元)"].astype(float)

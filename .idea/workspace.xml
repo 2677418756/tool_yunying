@@ -35,30 +35,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Python.BillReceive.executor&quot;: &quot;Run&quot;,
-    &quot;Python.CleanTool_pack.executor&quot;: &quot;Run&quot;,
-    &quot;Python.CommonUtil.executor&quot;: &quot;Run&quot;,
-    &quot;Python.DB_OrderPayment.executor&quot;: &quot;Run&quot;,
-    &quot;Python.DB_Pretreatment.executor&quot;: &quot;Run&quot;,
-    &quot;Python.DB_StatisticBill.executor&quot;: &quot;Run&quot;,
-    &quot;Python.DB_Update.executor&quot;: &quot;Run&quot;,
-    &quot;Python.OderCost.executor&quot;: &quot;Run&quot;,
-    &quot;Python.OrderAmount.executor&quot;: &quot;Run&quot;,
-    &quot;Python.OrderCost.executor&quot;: &quot;Run&quot;,
-    &quot;Python.PDDBillReceive.executor&quot;: &quot;Run&quot;,
-    &quot;Python.PddOrderAllStatus.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test.executor&quot;: &quot;Run&quot;,
-    &quot;Python.天猫账单回款表测试.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/work/财务/code/tool&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Python.BillReceive.executor": "Run",
+    "Python.CleanTool_pack.executor": "Run",
+    "Python.CommonUtil.executor": "Run",
+    "Python.DB_OrderPayment.executor": "Run",
+    "Python.DB_Pretreatment.executor": "Run",
+    "Python.DB_StatisticBill.executor": "Run",
+    "Python.DB_Update.executor": "Run",
+    "Python.OderCost.executor": "Run",
+    "Python.OrderAmount.executor": "Run",
+    "Python.OrderCost.executor": "Run",
+    "Python.PDDBillReceive.executor": "Run",
+    "Python.PddOrderAllStatus.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.test.executor": "Run",
+    "Python.天猫账单回款表测试.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "D:/work/财务/code/tool",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\work\运营\code\tenglan_-python_-windows_-tools\CleanTool" />
