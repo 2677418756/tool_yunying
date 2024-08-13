@@ -5,8 +5,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5a51ad54-a59d-4535-99fe-3e766cb17a94" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/BillReceive/视频号回款测试.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CleanTool/视频号清洗测试.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/视频号订单状态表测试.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/OrderCost/视频号订单成本金额表测试.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BillReceive/BillReceive.py" beforeDir="false" afterPath="$PROJECT_DIR$/BillReceive/BillReceive.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BillReceive/BillReceive.spec" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BillReceive/build/BillReceive/Analysis-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BillReceive/build/BillReceive/BillReceive.pkg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BillReceive/build/BillReceive/EXE-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BillReceive/build/BillReceive/PKG-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BillReceive/build/BillReceive/PYZ-00.pyz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BillReceive/build/BillReceive/PYZ-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BillReceive/build/BillReceive/base_library.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BillReceive/build/BillReceive/warn-BillReceive.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BillReceive/build/BillReceive/xref-BillReceive.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BillReceive/dist/BillReceive.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CleanTool/CleanTool_pack.py" beforeDir="false" afterPath="$PROJECT_DIR$/CleanTool/CleanTool_pack.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/DB_Pretreatment.py" beforeDir="false" afterPath="$PROJECT_DIR$/DB_Project/DB_Pretreatment/DB_Pretreatment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderAmount/OrderAmount.py" beforeDir="false" afterPath="$PROJECT_DIR$/OrderAmount/OrderAmount.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderCost/OrderCost.py" beforeDir="false" afterPath="$PROJECT_DIR$/OrderCost/OrderCost.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderCost/build/OrderCost/Analysis-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderCost/build/OrderCost/EXE-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderCost/build/OrderCost/OrderCost.pkg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderCost/build/OrderCost/PKG-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderCost/build/OrderCost/PYZ-00.pyz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderCost/build/OrderCost/PYZ-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderCost/build/OrderCost/base_library.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderCost/build/OrderCost/warn-OrderCost.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderCost/build/OrderCost/xref-OrderCost.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderCost/dist/OrderCost.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PDDCleanTool/PddBillReceive/PDDBillReceive.py" beforeDir="false" afterPath="$PROJECT_DIR$/PDDCleanTool/PddBillReceive/PDDBillReceive.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PDDCleanTool/PddBillReceive/test.xlsx" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +69,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Python.BillReceive.executor": "Debug",
+    "Python.BillReceive.executor": "Run",
     "Python.CleanTool_pack.executor": "Run",
     "Python.CommonUtil.executor": "Run",
     "Python.DB_OrderPayment.executor": "Run",
@@ -52,6 +84,11 @@
     "Python.main.executor": "Run",
     "Python.test.executor": "Run",
     "Python.天猫账单回款表测试.executor": "Run",
+    "Python.视频号回款测试.executor": "Run",
+    "Python.视频号清洗测试.executor": "Run",
+    "Python.视频号订单成本金额表测试.executor": "Run",
+    "Python.视频号订单状态表测试.executor": "Run",
+    "Python.视频号订单金额表测试.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "last_opened_file_path": "D:/work/财务/code/tool",
@@ -64,7 +101,7 @@
       <recent name="D:\work\运营\code\tenglan_-python_-windows_-tools\DB_Project\DB_Pretreatment" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.BillReceive">
+  <component name="RunManager" selected="Python.OrderAmount">
     <configuration name="BillReceive" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="tenglan_-python_-windows_-tools" />
       <option name="ENV_FILES" value="" />
@@ -153,7 +190,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="OrderCost" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="tenglan_-python_-windows_-tools" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -162,11 +199,55 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/OrderCost" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/OrderCost/OrderCost.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="视频号订单成本金额表测试" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="tenglan_-python_-windows_-tools" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/OrderCost" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/OrderCost/视频号订单成本金额表测试.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="视频号订单金额表测试" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="tenglan_-python_-windows_-tools" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/OrderAmount" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/OrderAmount/视频号订单金额表测试.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -177,11 +258,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.BillReceive" />
-        <item itemvalue="Python.DB_Pretreatment" />
-        <item itemvalue="Python.CleanTool_pack" />
-        <item itemvalue="Python.test" />
         <item itemvalue="Python.OrderAmount" />
+        <item itemvalue="Python.DB_Pretreatment" />
+        <item itemvalue="Python.BillReceive" />
+        <item itemvalue="Python.OrderCost" />
+        <item itemvalue="Python.CleanTool_pack" />
       </list>
     </recent_temporary>
   </component>

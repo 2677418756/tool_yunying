@@ -86,6 +86,8 @@ def two_decimal(x_data):
 def 抖音账单回款表(账单表):
     用于合并 = pd.DataFrame()
 
+    账单表 = 账单表[~账单表.订单创建日期.isna()]
+
     # 将浮点数按一位小数使用
     账单表['实际结算金额(元)'] = 账单表['实际结算金额(元)'].map(two_decimal)
     # 第一句将时间戳转换为datatime时间组件，第二句将短日期组件提取出来，第三句转换成str方便用户查看
@@ -475,9 +477,10 @@ def 拼多多账单回款表(订单表,账单表):
                                      '2000-01-01')
     账单表['发生时间'] = 账单表['发生时间'].astype('datetime64[ns]')
 
-    bill_order_data = pd.merge(账单表, 订单表, how='left', on='订单号')
+    bill_order_data = pd.merge(账单表, 订单表,how='left', left_on='订单号',right_on='订单号')
     bill_order_data['天数'] = bill_order_data['发生时间'] - bill_order_data['订单成交时间']
     bill_order_data['天数'] = bill_order_data['天数'].astype(str)
+    bill_order_data.to_excel("D:/test.xlsx")
     bill_order_data['天数'] = bill_order_data['天数'].str.split(" ", expand=True)[0]
     bill_order_data['天数'] = bill_order_data['天数'].apply(lambda x: '第' + x + '天')
     bill_order_data['金额'] = bill_order_data['收入金额'] + bill_order_data['支出金额']
@@ -494,7 +497,6 @@ def 拼多多账单回款表(订单表,账单表):
     )
 
     settle_amount_data["金额"] = settle_amount_data["金额"].fillna(0)
-
     settle_amount_data["金额"] = settle_amount_data["金额"].astype(float)
 
     # 设置格式
@@ -539,6 +541,73 @@ from PySide2.QtWidgets import QApplication, QMessageBox, QFileDialog, QWidget
 from ui_BillReceive import Ui_Form
 
 
+def 视频号账单回款表(订单表, 订单流水表):
+    订单流水表['实际结算金额'] = 订单流水表['实际结算金额'].astype(float)
+    bill_data_start = 订单流水表
+
+    订单表 = 订单表.loc[:, ['订单号', '订单创建日期']]
+    订单表['订单创建日期'] = pd.to_datetime(订单表['订单创建日期'], errors='coerce')
+    订单表['订单创建日期'] = np.where(订单表.订单创建日期.notnull(),
+                                      订单表.订单创建日期.dt.strftime('%Y-%m-%d'), '2000-01-01')
+    订单表['订单创建日期'] = 订单表['订单创建日期'].astype('datetime64[ns]')
+
+    订单流水表 = 订单流水表[~订单流水表.商家结算时间.isin(["-"])]
+    订单流水表['商家结算时间'] = pd.to_datetime(订单流水表['商家结算时间'], errors='coerce')
+    订单流水表['商家结算时间'] = np.where(订单流水表.商家结算时间.notnull(),
+                                          订单流水表.商家结算时间.dt.strftime('%Y-%m-%d'),
+                                          '2000-01-01')
+    订单流水表['商家结算时间'] = 订单流水表['商家结算时间'].astype('datetime64[ns]')
+
+    bill_order_data = pd.merge(订单流水表, 订单表, how='left', on='订单号')
+    bill_order_data['天数'] = bill_order_data['商家结算时间'] - bill_order_data['订单创建日期']
+    bill_order_data['天数'] = bill_order_data['天数'].astype(str)
+    bill_order_data['天数'] = bill_order_data['天数'].str.split(" ", expand=True)[0]
+    bill_order_data['天数'] = bill_order_data['天数'].apply(lambda x: '第' + x + '天')
+
+    grouped = bill_order_data.groupby(['订单创建日期', '天数'], as_index=True)
+    settle_amount_data = grouped['实际结算金额'].sum()
+    settle_amount_data = settle_amount_data.reset_index()
+
+    settle_amount_data = pd.pivot_table(
+        settle_amount_data,
+        index=['订单创建日期'],
+        columns=['天数'],
+        values=['实际结算金额']
+    )
+    settle_amount_data["实际结算金额"] = settle_amount_data["实际结算金额"].fillna(0)
+
+    # 设置格式
+    settle_amount_data.columns = settle_amount_data.columns.droplevel(0)
+    settle_amount_data = settle_amount_data.reset_index()
+    settle_amount_data["订单创建日期"] = settle_amount_data["订单创建日期"].apply(lambda x: str(x)[:10])
+    settle_amount_data = settle_amount_data.set_index("订单创建日期")
+
+    # 根据天数进行排序
+    column_numbers = [int(col.split('第')[1].split('天')[0]) for col in settle_amount_data.columns]
+    # 根据数字部分对列名进行排序
+    sorted_columns = [x for _, x in sorted(zip(column_numbers, settle_amount_data.columns))]
+
+    # 按照排序后的列名重新排列 DataFrame
+    df_sorted = settle_amount_data[sorted_columns]
+
+    df_sorted.to_excel("D:/账单回款表.xlsx", sheet_name="账单回款明细表")
+
+    bill_data_start['商家结算时间'] = 订单流水表['商家结算时间'].apply(lambda x: str(x).split(" ")[0])
+
+    订单流水表["商家结算时间"] = 订单流水表["商家结算时间"].apply(lambda x:str(x)[:10])
+    处理 = pd.pivot_table(订单流水表, index=['商家结算时间'],
+                          values=['实际结算金额'],
+                          aggfunc={'实际结算金额': np.sum})
+    处理.index.name = "实际结算日期"
+    处理 = 处理.sort_index()
+
+    df_sorted["总计金额"] = 0
+    for i in range(0, len(df_sorted.columns) - 1):
+        df_sorted["总计金额"] += df_sorted[df_sorted.columns[i]]
+
+    return 处理[["实际结算金额"]],df_sorted,df_sorted[["总计金额"]]
+
+
 class Window(QWidget):
 
     def __init__(self):
@@ -578,7 +647,7 @@ class Window(QWidget):
         # 获取输入值
         self.操作人 = self.ui.User.text()
         self.备注 = self.ui.Remark.text()
-        需打开表格名列表 = ['订单表', '账单表', '结算表']
+        需打开表格名列表 = ['订单表', '账单表', '结算表','订单流水表']
         # 实例化对象,调用方法
         自动提取文件 = AutoExtractFiles(self.输入文件夹绝对路径, 需打开表格名列表)
         需打开表格字典 = 自动提取文件.handle()
@@ -596,11 +665,13 @@ class Window(QWidget):
 
         if self.备注 == '':
             self.备注 = '无'
-
         try:
-            文件名 = os.path.basename(需打开表格字典['账单表'])  # loose-天猫-账单表-清洗后.xlsx
+            try:
+                文件名 = os.path.basename(需打开表格字典['账单表'])  # loose-天猫-账单表-清洗后.xlsx
+            except:
+                文件名 = os.path.basename(需打开表格字典['结算表'])
         except:
-            文件名 = os.path.basename(需打开表格字典['结算表'])
+            文件名 = os.path.basename(需打开表格字典['订单流水表'])
 
         文件名前缀 = os.path.splitext(文件名)[0]  # loose-天猫-账单表-清洗后
         表格类型 = 文件名前缀.split('-')[2]
@@ -614,6 +685,9 @@ class Window(QWidget):
                 账单表 = pd.read_excel(v)
             elif k == '结算表':
                 结算表 = pd.read_excel(v)
+            elif k == '订单流水表':
+                订单流水表 = pd.read_excel(v)
+
 
         输出文件名格式 = f'\\{客户名称}-{平台类型}-账单回款表-{self.操作人}-{self.备注}.xlsx'
         输出路径 = self.保存文件绝对路径 + 输出文件名格式
@@ -639,6 +713,8 @@ class Window(QWidget):
             回款总表, 用于合并, 按订单创建日期回款表 = 天猫账单回款表(订单表, 账单表)
         elif 平台类型 == '拼多多':
             回款总表, 用于合并, 按订单创建日期回款表 = 拼多多账单回款表(订单表, 账单表)
+        elif 平台类型 == '视频号':
+            回款总表, 用于合并, 按订单创建日期回款表 = 视频号账单回款表(订单表, 订单流水表)
         else:
             # print('命名格式错误：平台类型')
             QMessageBox.about(self, "报错！", "命名格式错误：平台类型")
@@ -662,6 +738,8 @@ class Window(QWidget):
         elif 平台类型 == '淘宝':
             按订单创建日期回款表.to_excel(writer, sheet_name='订单创建日期回款表')
         elif 平台类型 == '拼多多':
+            按订单创建日期回款表.to_excel(writer, sheet_name='订单创建日期回款表')
+        elif 平台类型 == '视频号':
             按订单创建日期回款表.to_excel(writer, sheet_name='订单创建日期回款表')
         else:
             pass
