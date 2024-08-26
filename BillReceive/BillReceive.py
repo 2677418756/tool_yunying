@@ -480,7 +480,6 @@ def 拼多多账单回款表(订单表,账单表):
     bill_order_data = pd.merge(账单表, 订单表,how='left', left_on='订单号',right_on='订单号')
     bill_order_data['天数'] = bill_order_data['发生时间'] - bill_order_data['订单成交时间']
     bill_order_data['天数'] = bill_order_data['天数'].astype(str)
-    bill_order_data.to_excel("D:/test.xlsx")
     bill_order_data['天数'] = bill_order_data['天数'].str.split(" ", expand=True)[0]
     bill_order_data['天数'] = bill_order_data['天数'].apply(lambda x: '第' + x + '天')
     bill_order_data['金额'] = bill_order_data['收入金额'] + bill_order_data['支出金额']
@@ -590,7 +589,6 @@ def 视频号账单回款表(订单表, 订单流水表):
     # 按照排序后的列名重新排列 DataFrame
     df_sorted = settle_amount_data[sorted_columns]
 
-    df_sorted.to_excel("D:/账单回款表.xlsx", sheet_name="账单回款明细表")
 
     bill_data_start['商家结算时间'] = 订单流水表['商家结算时间'].apply(lambda x: str(x).split(" ")[0])
 
