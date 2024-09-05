@@ -45,12 +45,34 @@ def 抖团_函数(订单表):
     return 抖团
 
 
-def dy_chuli(path):
+def 抖商_函数(订单表):
+    抖商 = pd.pivot_table(
+        订单表,
+        index=['订单创建日期'],
+        values=['订单应付金额'],
+        aggfunc={'订单应付金额': np.sum}
+    )
+    抖商.reset_index()
+
+    max_indexes = 订单表.groupby('订单创建日期')['订单应付金额'].idxmax()
+    # 根据找到的索引筛选出对应的行
+    抖商_商品 = 订单表.loc[max_indexes]
+    抖商_商品 = 抖商_商品[["订单创建日期", "商品编码"]]
+
+    抖商 = pd.merge(抖商, 抖商_商品[["订单创建日期", "商品编码"]], how='left', left_on='订单创建日期',
+                    right_on='订单创建日期')
+    抖商["订单创建日期"] = 抖商["订单创建日期"].apply(lambda x: str(x)[:10])
+    抖商.rename(columns={'商品编码': '款号'}, inplace=True)
+    return 抖商
+
+
+def dy_chuli(path,sku_path):
     shop_name = str(path).split("-")[1]
     files = os.listdir(path + "/2、清洗后")
     for file in files:
         if "订单表" in file:
             订单表 = pd.read_excel(path + "/2、清洗后/" + file, dtype=str)
+            订单表["商家编码"] = 订单表["商家编码"].apply(lambda x:str(x).strip().replace("\t",""))
         elif "售后表" in file:
             售后表 = pd.read_excel(path + "/2、清洗后/" + file, dtype=str)
         elif "运单表" in file:
@@ -64,6 +86,8 @@ def dy_chuli(path):
             订单金额表 = pd.read_excel(path + "/3、中台表格/" + file, dtype=str)
         elif "订单成本金额表" in file:
             订单成本金额表 = pd.read_excel(path + "/3、中台表格/" + file, dtype=str)
+
+    sku_file = pd.read_excel(sku_path, dtype=str)
 
     # ①售后类型
     售后表_合并 = pd.merge(订单表, 售后表[["订单编号", "售后类型"]], how='left', left_on='订单编号',
@@ -94,6 +118,10 @@ def dy_chuli(path):
     团长表_合并["出单机构"] = 团长表_合并["出单机构"].fillna("无")
     订单表["团长"] = 团长表_合并["出单机构"]
 
+    # 商品匹配
+    订单表 = pd.merge(订单表, sku_file[["规格编码", "商品编码"]], how='left', left_on='商家编码',
+                           right_on='规格编码')
+
     # ②抖发
     订单表_筛选 = 订单表[~订单表.售后类型.isin(['未发货仅退款'])]
     抖发 = 抖发_函数(订单表_筛选)
@@ -101,6 +129,11 @@ def dy_chuli(path):
     # ②抖团
     抖团 = 抖团_函数(订单表_筛选)
 
+    # ②抖商
+    抖商 = 抖商_函数(订单表_筛选)
+
+    抖团 = pd.merge(抖团, 抖商[["订单创建日期", "款号"]], how='left', left_on='订单创建日期',
+                           right_on='订单创建日期')
     订单成本金额表["联盟佣金"] = 订单成本金额表["联盟佣金"].astype(float)
     订单成本金额表["团长佣金"] = 订单成本金额表["团长佣金"].astype(float)
     订单成本金额表["总佣金"] = 订单成本金额表["联盟佣金"] + 订单成本金额表["团长佣金"]
@@ -110,7 +143,7 @@ def dy_chuli(path):
     return table_calculate(抖发, 抖团, 订单成本金额表, 订单金额表, shop_name)
 
 
-def ks_chuli(path):
+def ks_chuli(path,sku_path):
     shop_name = str(path).split("-")[1]
     files = os.listdir(path + "/1、源文件")
     for file in files:
@@ -133,6 +166,8 @@ def ks_chuli(path):
             订单金额表 = pd.read_excel(path + "/3、中台表格/" + file, dtype=str)
         elif "订单成本金额表" in file:
             订单成本金额表 = pd.read_excel(path + "/3、中台表格/" + file, dtype=str)
+
+    sku_file = pd.read_excel(sku_path, dtype=str)
 
     # ①【快手（MVAV辰名店）】
     # 售后类型
@@ -162,12 +197,22 @@ def ks_chuli(path):
                       right_on='订单号')
     订单表.rename(columns={'团长昵称': '团长'}, inplace=True)
 
+    # 商品匹配
+    订单表 = pd.merge(订单表, sku_file[["规格编码", "商品编码"]], how='left', left_on='商家编码',
+                           right_on='规格编码')
+
     # ②快发
     订单表_筛选 = 订单表[~订单表.售后类型.isin(['仅退款'])]
     快发 = 抖发_函数(订单表_筛选)
 
     # ②快团
     快团 = 抖团_函数(订单表_筛选)
+
+    # ②快商
+    快商 = 抖商_函数(订单表_筛选)
+
+    快团 = pd.merge(快团, 快商[["订单创建日期", "款号"]], how='left', left_on='订单创建日期',
+                           right_on='订单创建日期')
 
     订单成本金额表["剩余销售金额"] = 订单成本金额表["剩余销售金额"].astype(float)
     订单成本金额表["总佣金"] = 订单成本金额表["剩余销售金额"] * 0.4
@@ -197,9 +242,10 @@ def table_calculate(抖发, 抖团, 订单成本金额表, 订单金额表, shop
                           抖发[["订单创建日期", "0", "1", "2", "3", "4", "5", "6", "7", "7天以上", "未发货"]],
                           how='left',
                           left_on='订单创建日期', right_on='订单创建日期')
-    订单金额表 = pd.merge(订单金额表, 抖团[["订单创建日期", "团长"]], how='left', left_on='订单创建日期',
+    订单金额表 = pd.merge(订单金额表, 抖团[["订单创建日期","团长","款号"]], how='left', left_on='订单创建日期',
                           right_on='订单创建日期')
     订单金额表["团长"] = 订单金额表["团长"].fillna(0)
+    订单金额表["款号"] = 订单金额表["款号"].fillna(0)
     订单金额表 = 订单金额表.fillna(0)
     # 订单金额表["0"] = 抖发["0"]
 
@@ -228,15 +274,15 @@ def table_calculate(抖发, 抖团, 订单成本金额表, 订单金额表, shop
     订单金额表["其他费用"] = 订单金额表["其他费用"].astype(float)
     订单金额表["实际成交金额"] = 订单金额表["销售金额"] - 订单金额表["退款金额"] - 订单金额表["退货金额"]
     订单金额表["平台预估结算金额"] = 订单金额表["实际成交金额"] - 订单金额表["佣金金额"] - 订单金额表["其他费用"]
-    订单金额表["款号"] = ""
 
     return 订单金额表[
         ["平台", "店铺", "销售日期", "商务", "款号", "销售金额", "退款金额", "退货金额", "实际成交金额", "佣金金额",
          "其他费用", "平台预估结算金额", "发货总金额", "当日发货", "第一天发货", "第二天发货", "第三天发货",
-         "第四天发货", "第五天发货", "第六天发货", "第七天发货", "7天以上", "待发货金额"]]
+         "第四天发货", "第五天发货", "第六天发货", "第七天发货", "7天以上", "待发货金额"]
+    ]
 
 
-def generate_table(path_list, output_path, out_filename):
+def generate_table(path_list,sku_path, output_path, out_filename):
 
     table_list = []
     for path in path_list:
@@ -252,9 +298,10 @@ def generate_table(path_list, output_path, out_filename):
             continue
         平台 = str(path).split("/")[-1].split("-")[0]
         if 平台 == "抖音":
-            table_list.append(dy_chuli(path))
+            table_list.append(dy_chuli(path,sku_path))
         elif 平台 == "快手":
-            table_list.append(ks_chuli(path))
+            table_list.append(ks_chuli(path,sku_path))
+
 
     终表 = pd.concat(table_list)
 

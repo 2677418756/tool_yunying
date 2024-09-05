@@ -5,22 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5a51ad54-a59d-4535-99fe-3e766cb17a94" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/new_tool/build/main/Analysis-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/new_tool/build/main/EXE-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/new_tool/build/main/PKG-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/new_tool/build/main/PYZ-00.pyz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/new_tool/build/main/PYZ-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/new_tool/build/main/Tree-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/new_tool/build/main/Tree-01.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/new_tool/build/main/Tree-02.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/new_tool/build/main/base_library.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/new_tool/build/main/main.pkg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/new_tool/build/main/warn-main.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/new_tool/build/main/xref-main.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/new_tool/calculate.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/new_tool/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/new_tool/main.spec" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_tool/build/main/Analysis-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_tool/build/main/EXE-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_tool/build/main/PKG-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_tool/build/main/PYZ-00.pyz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_tool/build/main/PYZ-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_tool/build/main/Tree-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_tool/build/main/Tree-01.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_tool/build/main/Tree-02.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_tool/build/main/base_library.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_tool/build/main/main.pkg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_tool/build/main/warn-main.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_tool/build/main/xref-main.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_tool/calculate.py" beforeDir="false" afterPath="$PROJECT_DIR$/new_tool/calculate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_tool/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/new_tool/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_tool/main.spec" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,36 +48,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Python.BillReceive.executor": "Run",
-    "Python.CleanTool_pack.executor": "Run",
-    "Python.CommonUtil.executor": "Run",
-    "Python.DB_OrderPayment.executor": "Run",
-    "Python.DB_Pretreatment.executor": "Run",
-    "Python.DB_StatisticBill.executor": "Run",
-    "Python.DB_Update.executor": "Run",
-    "Python.OderCost.executor": "Run",
-    "Python.OrderAmount.executor": "Run",
-    "Python.OrderCost.executor": "Run",
-    "Python.PDDBillReceive.executor": "Run",
-    "Python.PddOrderAllStatus.executor": "Run",
-    "Python.calculate.executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.test.executor": "Run",
-    "Python.天猫账单回款表测试.executor": "Run",
-    "Python.视频号回款测试.executor": "Run",
-    "Python.视频号清洗测试.executor": "Run",
-    "Python.视频号订单成本金额表测试.executor": "Run",
-    "Python.视频号订单状态表测试.executor": "Run",
-    "Python.视频号订单金额表测试.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "D:/work/运营/code/tenglan_-python_-windows_-tools/new_tool",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Python.BillReceive.executor&quot;: &quot;Run&quot;,
+    &quot;Python.CleanTool_pack.executor&quot;: &quot;Run&quot;,
+    &quot;Python.CommonUtil.executor&quot;: &quot;Run&quot;,
+    &quot;Python.DB_OrderPayment.executor&quot;: &quot;Run&quot;,
+    &quot;Python.DB_Pretreatment.executor&quot;: &quot;Run&quot;,
+    &quot;Python.DB_StatisticBill.executor&quot;: &quot;Run&quot;,
+    &quot;Python.DB_Update.executor&quot;: &quot;Run&quot;,
+    &quot;Python.OderCost.executor&quot;: &quot;Run&quot;,
+    &quot;Python.OrderAmount.executor&quot;: &quot;Run&quot;,
+    &quot;Python.OrderCost.executor&quot;: &quot;Run&quot;,
+    &quot;Python.PDDBillReceive.executor&quot;: &quot;Run&quot;,
+    &quot;Python.PddOrderAllStatus.executor&quot;: &quot;Run&quot;,
+    &quot;Python.calculate.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.天猫账单回款表测试.executor&quot;: &quot;Run&quot;,
+    &quot;Python.视频号回款测试.executor&quot;: &quot;Run&quot;,
+    &quot;Python.视频号清洗测试.executor&quot;: &quot;Run&quot;,
+    &quot;Python.视频号订单成本金额表测试.executor&quot;: &quot;Run&quot;,
+    &quot;Python.视频号订单状态表测试.executor&quot;: &quot;Run&quot;,
+    &quot;Python.视频号订单金额表测试.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/work/运营/code/tenglan_-python_-windows_-tools/new_tool&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\work\运营\code\tenglan_-python_-windows_-tools\new_tool" />
@@ -85,7 +85,7 @@
       <recent name="D:\work\运营\code\tenglan_-python_-windows_-tools\DB_Project\DB_Pretreatment" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.calculate">
+  <component name="RunManager" selected="Python.main">
     <configuration name="视频号订单金额表测试" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="tenglan_-python_-windows_-tools" />
       <option name="ENV_FILES" value="" />
@@ -220,8 +220,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.calculate" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.calculate" />
         <item itemvalue="Python.DB_Pretreatment" />
         <item itemvalue="Python.OrderAmount" />
         <item itemvalue="Python.BillReceive" />

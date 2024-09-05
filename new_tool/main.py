@@ -23,6 +23,10 @@ def select_path(x):
         input_ks_2.delete(0, tk.END)
         input_ks_2.insert(0, path)
     elif x == 5:
+        path = filedialog.askopenfilename()
+        input_sku.delete(0, tk.END)
+        input_sku.insert(0, path)
+    elif x == 6:
         path = filedialog.askdirectory()
         input_out_position.delete(0, tk.END)
         input_out_position.insert(0, path)
@@ -33,15 +37,20 @@ def submit():
     path2 = input_dy_2.get()
     path3 = input_ks_1.get()
     path4 = input_ks_2.get()
+    sku_path = input_sku.get()
     if path1 == "" and path2 == "" and path3 == "" and path4 == "":
         messagebox.showinfo("提示", "至少选择一个需要处理的文件夹")
+        return
+    elif input_sku.get() == "":
+        messagebox.showinfo("提示", "请选择sku文件位置")
         return
     elif input_out_position.get() == "":
         messagebox.showinfo("提示", "请选择输出文件位置")
         return
+
     file_name = "发货数据 - 终表 - " + input_remarks.get()
     try:
-        calculate.generate_table([path1,path2,path3,path4],input_out_position.get(),file_name)
+        calculate.generate_table([path1,path2,path3,path4],sku_path,input_out_position.get(),file_name)
     except Exception as e:
         messagebox.showinfo("提示",e)
 
@@ -57,14 +66,14 @@ screen_height = root.winfo_screenheight()
 
 # 计算窗口的宽度和高度
 window_width = 600
-window_height = 300
+window_height = 350
 
 # 计算窗口在屏幕中的坐标
 x = (screen_width - window_width) // 2
 y = (screen_height - window_height) // 2
 
 # 设置窗口大小为 500x300 像素
-root.geometry("600x300+"+str(x)+"+"+str(y))
+root.geometry("600x350+"+str(x)+"+"+str(y))
 
 # 输入 抖音1
 label_dy_1 = Label(root, text="处理文件1文件夹位置：")
@@ -106,25 +115,35 @@ input_ks_2.grid(row=3, column=1, pady=6)
 button_ks_2 = Button(root, text="选择", width=10, command=lambda: select_path(4))
 button_ks_2.grid(row=3, column=2, padx=15, pady=6)
 
+# 输入5 SKU
+label_sku = Label(root, text="选择sku文件位置：")
+label_sku.grid(row=4, column=0, padx=15, pady=6)
+
+input_sku = Entry(root, width=40)
+input_sku.grid(row=4, column=1, pady=6)
+
+button_sku = Button(root, text="选择", width=10, command=lambda: select_path(5))
+button_sku.grid(row=4, column=2, padx=15, pady=6)
+
 # 输出路径
 label_out_position = Label(root, text="请选择文件输出位置：")
-label_out_position.grid(row=4, column=0, padx=15, pady=6)
+label_out_position.grid(row=5, column=0, padx=15, pady=6)
 
 input_out_position = Entry(root, width=40)
-input_out_position.grid(row=4, column=1, pady=6)
+input_out_position.grid(row=5, column=1, pady=6)
 
-button_out_position = Button(root, text="选择", width=10, command=lambda: select_path(5))
-button_out_position.grid(row=4, column=2, padx=15, pady=6)
+button_out_position = Button(root, text="选择", width=10, command=lambda: select_path(6))
+button_out_position.grid(row=5, column=2, padx=15, pady=6)
 
 # 输出文件名
 label_remarks = Label(root, text="备注：")
-label_remarks.grid(row=5, column=0, padx=15, pady=6)
+label_remarks.grid(row=6, column=0, padx=15, pady=6)
 
 input_remarks = Entry(root, width=40)
-input_remarks.grid(row=5, column=1, pady=6)
+input_remarks.grid(row=6, column=1, pady=6)
 
 # 提交
 button_submit = Button(root, text="提交", command=submit)
-button_submit.grid(row=6, column=1, padx=15, pady=6)
+button_submit.grid(row=7, column=1, padx=15, pady=6)
 
 root.mainloop()
