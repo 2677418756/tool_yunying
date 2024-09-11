@@ -19,13 +19,17 @@ def select_path(x):
 def submit():
     path = input_allStatus.get()
     output_path = input_out_position.get()
+    info=""
     if path == "":
         messagebox.showinfo("提示", "请选择需要计算的文件夹")
         return
     try:
-        calculate.generate_table(path,output_path)
+        info = calculate.generate_table(path,output_path)
+        print(info)
     except Exception as e:
         messagebox.showinfo("提示",e)
+        return
+    messagebox.showinfo("提示", info)
 
 
 root = Tk()
@@ -59,7 +63,7 @@ button_allStatus = Button(root, text="选择", width=10, command=lambda: select_
 button_allStatus.grid(row=0, column=2, padx=15, pady=10)
 
 # 输出 文件位置
-label_out_position = Label(root, text="请选择文件输出位置：")
+label_out_position = Label(root, text="请选择文件输出位置（可选）：")
 label_out_position.grid(row=1, column=0, padx=15, pady=10)
 
 input_out_position = Entry(root, width=40)
